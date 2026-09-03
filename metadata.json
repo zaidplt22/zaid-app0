@@ -1,0 +1,6 @@
+{
+  "name": "وثيقة أعقاب شارح البحر - المشجر الهرمي بالأكواد",
+  "description": "منصة توثيق وتحقيق أنساب ذرية سيدي الشيخ أحمد بن عبد الله الحضرمي (شارح البحر) وسجلات الشهداء والسلسلة الشريفة المتصلة.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
