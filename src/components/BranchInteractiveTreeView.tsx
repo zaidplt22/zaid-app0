@@ -676,7 +676,13 @@ export const BranchInteractiveTreeView: React.FC<BranchInteractiveTreeViewProps>
               }
 
               const validChildren = block.children.filter(
-                (c) => c.name && c.name.trim() !== '' && c.name.trim() !== '-' && !c.name.includes('لم تتم موافاتنا')
+                (c) =>
+                  c.name &&
+                  c.name.trim() !== '' &&
+                  c.name.trim() !== '-' &&
+                  c.name.trim() !== 'بن' &&
+                  !/^بن\s*$/.test(c.name.trim()) &&
+                  !c.name.includes('لم تتم موافاتنا')
               );
 
               return (

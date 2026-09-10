@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { Smartphone, Download, CheckCircle2, ShieldCheck, BookOpen, ExternalLink, X, Copy, Check } from 'lucide-react';
+import { Smartphone, Download, CheckCircle2, ShieldCheck, BookOpen, ExternalLink, X, Copy, Check, FileArchive, Layers } from 'lucide-react';
 import { sequentialLineageBlocks } from '../data/sequentialLineageData';
+import { useAuthRole } from '../utils/authRole';
+import { exportCompleteProjectWithImagesZip, triggerZipDownload } from '../utils/zipExport';
+import { loadImagesFromStorage } from '../utils/imageStorage';
 
 interface OfflineAppModalProps {
   isOpen: boolean;
@@ -8,12 +11,36 @@ interface OfflineAppModalProps {
 }
 
 export const OfflineAppModal: React.FC<OfflineAppModalProps> = ({ isOpen, onClose }) => {
+  const { isAdmin } = useAuthRole();
   const [copied, setCopied] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [zipProgress, setZipProgress] = useState<string>('');
+  const [isExportingZip, setIsExportingZip] = useState(false);
 
   if (!isOpen) return null;
 
   const totalBlocks = sequentialLineageBlocks.length;
+
+  const handleExportZipWithImages = async () => {
+    try {
+      setIsExportingZip(true);
+      setZipProgress('جاري استخراج بيانات الوثائق الـ 74 وتجهيز ملفات المشروع...');
+      const { images } = await loadImagesFromStorage();
+      const zipBlob = await exportCompleteProjectWithImagesZip(images, (msg) => {
+        setZipProgress(msg);
+      });
+      triggerZipDownload(zipBlob, 'Sharh-AlBahr-Complete-With-74-Images.zip');
+      setZipProgress('تم تجهيز وبدء تحميل الحزمة الشاملة مع الـ 74 صورة بنجاح!');
+      setTimeout(() => {
+        setZipProgress('');
+        setIsExportingZip(false);
+      }, 3500);
+    } catch (err) {
+      console.error('Error generating project zip with images:', err);
+      setZipProgress('حدث خطأ أثناء الضغط، يمكنك تنزيل ملف ZIP المباشر أدناه.');
+      setIsExportingZip(false);
+    }
+  };
 
   const triggerDirectApkDownload = (filename: string = 'geneology-app.apk') => {
     setDownloading(true);
@@ -31,14 +58,27 @@ export const OfflineAppModal: React.FC<OfflineAppModalProps> = ({ isOpen, onClos
     }, 1500);
   };
 
-  const triggerOfflineHtmlDownload = () => {
-    const link = document.createElement('a');
-    link.href = '/Sharh-AlBahr-Offline-Book.html';
-    link.download = 'Sharh-AlBahr-Genealogy-Offline-App.html';
-    link.setAttribute('target', '_blank');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const triggerOfflineHtmlDownload = async (filename: string = 'index.html') => {
+    try {
+      const response = await fetch('/Sharh-AlBahr-Offline-App.html');
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+    } catch {
+      const link = document.createElement('a');
+      link.href = '/Sharh-AlBahr-Offline-App.html';
+      link.download = filename;
+      link.setAttribute('target', '_blank');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   const handleCopyLink = () => {
@@ -69,7 +109,7 @@ export const OfflineAppModal: React.FC<OfflineAppModalProps> = ({ isOpen, onClos
           </div>
           <div>
             <h2 className="text-xl font-bold text-emerald-400">تطبيق الأندرويد الشامل (بدون إنترنت)</h2>
-            <p className="text-xs text-stone-400 mt-0.5">تحميل وتثبيت وثيقة وموسوعة أعقاب شارح البحر كاملة في هاتفك</p>
+            <p className="text-xs text-stone-400 mt-0.5">تحميل وتثبيت كتاب وموسوعة آل الجنيد في تعز - من أعقاب شارح البحر الحضرمي كاملة في هاتفك</p>
           </div>
         </div>
 
@@ -92,68 +132,161 @@ export const OfflineAppModal: React.FC<OfflineAppModalProps> = ({ isOpen, onClos
         </div>
 
         {/* Download Action Section */}
-        <div className="space-y-3">
-          
-          {/* Primary APK Direct Download Button */}
-          <div className="bg-emerald-950/40 border border-emerald-600/60 rounded-xl p-4">
+        <div className="space-y-3.5">
+
+          {/* 1. Complete Project Full Export Package (ZIP) */}
+          <div className="bg-emerald-950/40 border-2 border-emerald-500/70 rounded-xl p-4 shadow-lg">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 bg-emerald-500 text-stone-950 text-[10px] font-bold rounded-md uppercase">APK مباشر</span>
-                <span className="text-sm font-bold text-emerald-300">ملف تطبيق الأندرويد (APK)</span>
+                <FileArchive className="w-5 h-5 text-emerald-400" />
+                <span className="text-sm font-bold text-emerald-300">حزمة المشروع الكاملة مع كافة الصور الـ 74 (ZIP)</span>
               </div>
-              <span className="text-xs text-emerald-400/80 font-mono">geneology-app.apk</span>
+              <span className="px-2 py-0.5 bg-emerald-500 text-stone-950 text-[10px] font-black rounded-md uppercase tracking-wider">
+                الحزمة الشاملة الموصى بها
+              </span>
             </div>
-            <p className="text-xs text-stone-300 mb-3">
-              ملف حزمة التثبيت المباشرة لنظام Android. يثبت تطبيقاً مستقلاً في هاتفك يعمل دون اتصال بالإنترنت.
+            <p className="text-xs text-stone-300 mb-3 leading-relaxed">
+              الحزمة الكاملة الجاهزة للتشغيل الفوري أوفلاين أو الرفع على WebToApp. تتضمن:
+              <br />
+              • ملف <code className="text-amber-300 font-mono font-bold">index.html</code> الشامل مع التصميم والوظائف.
+              <br />
+              • مجلد <code className="text-emerald-300 font-mono font-bold">images/</code> يحتوي على جميع الوثائق والمخطوطات الـ 74 بدقة عالية.
+              <br />
+              • ملف البيانات <code className="text-cyan-300 font-mono font-bold">app_data.json</code> وفهرس التوثيق <code className="text-cyan-300 font-mono font-bold">manuscripts_data.json</code>.
             </p>
-            <div className="flex gap-2">
-              <button
-                onClick={() => triggerDirectApkDownload('geneology-app.apk')}
-                className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-md cursor-pointer"
+
+            {zipProgress && (
+              <div className="mb-3 p-2.5 bg-emerald-950/90 border border-emerald-500/60 rounded-lg text-emerald-200 text-xs flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>{zipProgress}</span>
+              </div>
+            )}
+
+            <div className="flex flex-col sm:flex-row gap-2">
+              <a
+                href="/Sharh-AlBahr-Full-Export-With-74-Images.zip"
+                download="Sharh-AlBahr-Full-Export-With-74-Images.zip"
+                className="flex-1 inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-md"
               >
                 <Download className="w-4 h-4" />
-                <span>{downloading ? 'جاري التحميل...' : 'تحميل التطبيق الآن (APK مباشر)'}</span>
-              </button>
+                <span>تحميل الحزمة الشاملة الآن (ZIP مباشر)</span>
+              </a>
+
               <button
-                onClick={handleCopyLink}
-                className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-semibold transition border border-stone-700 cursor-pointer"
-                title="نسخ رابط ملف APK"
+                onClick={handleExportZipWithImages}
+                disabled={isExportingZip}
+                className="inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-semibold transition border border-stone-700 disabled:opacity-50 cursor-pointer"
+                title="إنشاء وضغط حزمة مخصصة من المتصفح"
               >
-                {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copied ? 'تم النسخ' : 'نسخ الرابط'}</span>
+                <FileArchive className="w-3.5 h-3.5 text-emerald-400" />
+                <span>{isExportingZip ? 'جاري التجهيز...' : 'تصدير ديناميكي (ZIP)'}</span>
               </button>
             </div>
           </div>
 
-          {/* Secondary Offline Single-File HTML WebApp */}
-          <div className="bg-stone-900 border border-stone-700/80 rounded-xl p-4">
+          {/* 2. Standalone Single-File HTML (With 74 Embedded Base64 Images) */}
+          <div className="bg-stone-900/90 border border-amber-500/50 rounded-xl p-4">
             <div className="flex items-center justify-between mb-1.5">
               <div className="flex items-center gap-2">
                 <BookOpen className="w-4 h-4 text-amber-400" />
-                <span className="text-sm font-bold text-amber-300">نسخة الكتاب التفاعلي الشامل (Offline Web App)</span>
+                <span className="text-sm font-bold text-amber-300">ملف تطبيق HTML المستقل (صور مدمجة داخلياً)</span>
               </div>
-              <span className="text-[11px] text-amber-400/90 font-medium">ملف واحد مستقل</span>
+              <span className="text-[11px] text-amber-300 font-medium bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+                ملف واحد يعمل بدون أي مجلد
+              </span>
             </div>
             <p className="text-xs text-stone-300 mb-3 leading-relaxed">
-              ملف كتاب إلكتروني متكامل وخفيف جداً، يفتح فوراً في أي متصفح بالهاتف بدون إنترنت وبدون الحاجة لأي صلاحيات تثبيت أو أذونات خارجية.
+              ملف HTML مدمج مستقل 100% يحتوي على كامل الشيفرات والبيانات مع كافة الوثائق الـ 74 مدمجة داخلياً. يفتح مباشرة بنقرة واحدة في أي متصفح بالهاتف أو الحاسوب ويعرض جميع الصور دون الحاجة لوجود مجلد الصور بجانبه.
             </p>
-            <div className="flex gap-2">
-              <button
-                onClick={triggerOfflineHtmlDownload}
-                className="flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-lg bg-amber-600 hover:bg-amber-500 text-stone-950 text-xs font-bold transition shadow-md cursor-pointer"
+            <div className="flex flex-col sm:flex-row gap-2">
+              <a
+                href="/index.html"
+                download="index.html"
+                className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-amber-600 hover:bg-amber-500 text-stone-950 text-xs font-bold transition shadow-md"
               >
                 <Download className="w-4 h-4 text-stone-950" />
-                <span>تحميل كتاب الأوفلاين الشامل (HTML)</span>
-              </button>
+                <span>تحميل ملف التطبيق الرئيسي (index.html)</span>
+              </a>
               <a
-                href="/Sharh-AlBahr-Offline-Book.html"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/Sharh-AlBahr-Offline-App.html"
+                download="Sharh-AlBahr-Offline-App.html"
                 className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-medium transition border border-stone-700"
               >
-                <ExternalLink className="w-3.5 h-3.5" />
-                <span>فتح مباشرة</span>
+                <Download className="w-3.5 h-3.5 text-amber-400" />
+                <span>نسخة أوفلاين مدمجة</span>
               </a>
+            </div>
+          </div>
+
+          {/* 3. Dedicated 74 Images Archive & app_data.json */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {/* 74 Images ZIP */}
+            <div className="bg-stone-900 border border-stone-800 rounded-xl p-3 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-2 text-xs font-bold text-stone-200 mb-1">
+                  <Layers className="w-4 h-4 text-blue-400" />
+                  <span>مجلد الوثائق الـ 74 فقط (ZIP)</span>
+                </div>
+                <p className="text-[11px] text-stone-400 mb-2.5">
+                  أرشيف يحتوي على كافة ملفات صور المخطوطات الـ 74 بصيغة PNG بدقة كاملة ومفهرسة.
+                </p>
+              </div>
+              <a
+                href="/Sharh-AlBahr-74-Images-Only.zip"
+                download="Sharh-AlBahr-74-Images-Only.zip"
+                className="inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-stone-800 hover:bg-stone-700 text-blue-300 text-xs font-medium transition border border-stone-700"
+              >
+                <Download className="w-3.5 h-3.5 text-blue-400" />
+                <span>تحميل مجلد الصور (ZIP)</span>
+              </a>
+            </div>
+
+            {/* app_data.json */}
+            <div className="bg-stone-900 border border-stone-800 rounded-xl p-3 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-2 text-xs font-bold text-stone-200 mb-1">
+                  <ExternalLink className="w-4 h-4 text-cyan-400" />
+                  <span>قاعدة البيانات (app_data.json)</span>
+                </div>
+                <p className="text-[11px] text-stone-400 mb-2.5">
+                  ملف البيانات الخام لجميع الأنساب والأكواد والأجيال بصيغة JSON القياسية.
+                </p>
+              </div>
+              <a
+                href="/app_data.json"
+                download="app_data.json"
+                className="inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-stone-800 hover:bg-stone-700 text-cyan-300 text-xs font-medium transition border border-stone-700"
+              >
+                <Download className="w-3.5 h-3.5 text-cyan-400" />
+                <span>تحميل ملف app_data.json</span>
+              </a>
+            </div>
+          </div>
+
+          {/* 4. APK Direct Download Button */}
+          <div className="bg-stone-900/60 border border-stone-800 rounded-xl p-3">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <span className="px-2 py-0.5 bg-emerald-500 text-stone-950 text-[10px] font-bold rounded-md uppercase">APK أندرويد</span>
+                <span className="text-xs font-bold text-stone-200">حزمة تثبيت أندرويد المستقلة (APK)</span>
+              </div>
+              <span className="text-[11px] text-stone-400 font-mono">geneology-app.apk</span>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => triggerDirectApkDownload('geneology-app.apk')}
+                className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-stone-800 hover:bg-stone-700 text-emerald-300 text-xs font-bold transition border border-stone-700 cursor-pointer"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>{downloading ? 'جاري التحميل...' : 'تحميل تطبيق الأندرويد (APK)'}</span>
+              </button>
+              <button
+                onClick={handleCopyLink}
+                className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-semibold transition border border-stone-700 cursor-pointer"
+                title="نسخ رابط APK"
+              >
+                {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+              </button>
             </div>
           </div>
 

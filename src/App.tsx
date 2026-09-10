@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { PersonNode, TreeStats, TreeDocumentation } from './types';
 import { sharhAlBahrTreeData } from './data/sharhAlBahrTreeData';
 import { comprehensiveDocumentation } from './data/comprehensiveDocumentation';
@@ -41,6 +41,69 @@ export default function App() {
 
   // Selected Node for Detail Inspection
   const [selectedNode, setSelectedNode] = useState<PersonNode | null>(null);
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState<boolean>(false);
+
+  // Set up browser History API / popstate listener for Android hardware back button & in-app back
+  useEffect(() => {
+    if (!window.history.state) {
+      window.history.replaceState({ tab: 'coded_hierarchy', branch: 'all' }, '');
+    }
+
+    const onPopState = (event: PopStateEvent) => {
+      // 1. If mobile drawer was open, close it
+      if (isMobileDrawerOpen) {
+        setIsMobileDrawerOpen(false);
+        return;
+      }
+
+      // 2. If node detail modal was open, close it
+      if (selectedNode) {
+        setSelectedNode(null);
+        return;
+      }
+
+      // 3. Inspect state or return to root home screen
+      const state = event.state;
+      if (state && (state.tab || state.branch)) {
+        setActiveTab(state.tab || 'coded_hierarchy');
+        setSelectedBranch(state.branch || 'all');
+      } else {
+        // Reset to default home screen
+        setActiveTab('coded_hierarchy');
+        setSelectedBranch('all');
+      }
+    };
+
+    window.addEventListener('popstate', onPopState);
+    return () => {
+      window.removeEventListener('popstate', onPopState);
+    };
+  }, [isMobileDrawerOpen, selectedNode]);
+
+  // Safe navigation handler for tab changes with history tracking
+  const handleSelectTab = (newTab: ActiveTabType) => {
+    if (newTab === activeTab) return;
+    window.history.pushState({ tab: newTab, branch: selectedBranch }, '');
+    setActiveTab(newTab);
+  };
+
+  // Safe navigation handler for branch selection with history tracking
+  const handleSelectBranch = (newBranch: string) => {
+    if (newBranch === selectedBranch) return;
+    if (newBranch !== 'all') {
+      window.history.pushState({ tab: activeTab, branch: newBranch }, '');
+    }
+    setSelectedBranch(newBranch);
+  };
+
+  // Return to the home screen view (المشجر الهرمي بالأكواد - كل الفروع)
+  const handleNavigateHome = () => {
+    setActiveTab('coded_hierarchy');
+    setSelectedBranch('all');
+    setSelectedNode(null);
+    setIsMobileDrawerOpen(false);
+    window.history.pushState({ tab: 'coded_hierarchy', branch: 'all' }, '');
+  };
 
   // Extract unique branch options for dropdown
   const branchOptions = useMemo(() => {
@@ -87,6 +150,7 @@ export default function App() {
     const all = flattenTree(treeData);
     const found = all.find((n) => n.id === nodeId);
     if (found) {
+      window.history.pushState({ modal: 'node', id: nodeId }, '');
       setSelectedNode(found);
     }
   };
@@ -112,19 +176,22 @@ export default function App() {
       {/* Top Navigation & Controls */}
       <Navbar
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={handleSelectTab}
         stats={stats}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         filterType={filterType}
         setFilterType={setFilterType}
         selectedBranch={selectedBranch}
-        setSelectedBranch={setSelectedBranch}
+        setSelectedBranch={handleSelectBranch}
         branchOptions={branchOptions}
         fontSize={fontSize}
         setFontSize={setFontSize}
         onPrint={handlePrint}
         onExportPdf={handleExportPdf}
+        isMobileDrawerOpen={isMobileDrawerOpen}
+        setIsMobileDrawerOpen={setIsMobileDrawerOpen}
+        onNavigateHome={handleNavigateHome}
       />
 
       {/* Main Content Area */}

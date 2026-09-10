@@ -22,7 +22,8 @@ import {
   Lock,
   Unlock,
   Eye,
-  KeyRound
+  KeyRound,
+  FileArchive
 } from 'lucide-react';
 import { historicalManuscriptsList } from '../data/historicalManuscriptsData';
 import { ManuscriptGalleryImage } from '../data/manuscriptImagesData';
@@ -35,6 +36,7 @@ import {
   setActiveManuscriptImages 
 } from '../utils/imageStorage';
 import { exportLineageToPdf, exportLineageToDoc } from '../utils/exportUtils';
+import { exportCompleteProjectWithImagesZip, triggerZipDownload, syncImagesToServer } from '../utils/zipExport';
 
 export const ManuscriptsGalleryView: React.FC = () => {
   // Gallery images state (Independent & Standalone)
@@ -71,6 +73,7 @@ export const ManuscriptsGalleryView: React.FC = () => {
   const [showClearConfirmModal, setShowClearConfirmModal] = useState<boolean>(false);
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
   const [copiedCode, setCopiedCode] = useState<boolean>(false);
+  const [isExportingZip, setIsExportingZip] = useState<boolean>(false);
 
   // File input ref for upload
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -113,12 +116,21 @@ export const ManuscriptsGalleryView: React.FC = () => {
       }
     };
 
+    const handleAuthUpdate = () => {
+      const storageHasAdmin = localStorage.getItem('sharikh_is_admin') === 'true';
+      setIsAdmin(storageHasAdmin);
+    };
+
     window.addEventListener('sharikh-manuscripts-updated', handleStorageUpdate);
+    window.addEventListener('sharikh-auth-changed', handleAuthUpdate);
     window.addEventListener('storage', handleStorageUpdate);
+    window.addEventListener('storage', handleAuthUpdate);
 
     return () => {
       window.removeEventListener('sharikh-manuscripts-updated', handleStorageUpdate);
+      window.removeEventListener('sharikh-auth-changed', handleAuthUpdate);
       window.removeEventListener('storage', handleStorageUpdate);
+      window.removeEventListener('storage', handleAuthUpdate);
     };
   }, []);
 
@@ -242,6 +254,32 @@ export const ManuscriptsGalleryView: React.FC = () => {
     setCopiedCode(true);
     setTimeout(() => setCopiedCode(false), 3000);
   };
+
+  // Export full project package with all 74 images (Client-side instant ZIP generation)
+  const handleExportCompleteProjectZip = async () => {
+    setIsExportingZip(true);
+    setUploadProgress('جاري تحضير ملفات المشروع وتضمين الـ 74 صورة في حزمة ZIP كاملة...');
+    try {
+      const zipBlob = await exportCompleteProjectWithImagesZip(galleryImages, (msg) => {
+        setUploadProgress(msg);
+      });
+      triggerZipDownload(zipBlob, 'Sharh-AlBahr-Complete-With-74-Images.zip');
+      setUploadProgress('تم تجهيز وبدء تحميل حزمة المشروع الكاملة مع الـ 74 صورة بنجاح!');
+      setTimeout(() => setUploadProgress(''), 4000);
+    } catch (err) {
+      console.error('Error generating project zip with images:', err);
+      setUploadProgress('حدث خطأ أثناء الضغط، يمكنك استخدام زر التنزيل المباشر أدناه.');
+    } finally {
+      setIsExportingZip(false);
+    }
+  };
+
+  // Auto-sync images to backend when available
+  useEffect(() => {
+    if (galleryImages.length > 0) {
+      syncImagesToServer(galleryImages);
+    }
+  }, [galleryImages]);
 
   // Filter standalone gallery images by search
   const filteredGalleryImages = useMemo(() => {
@@ -443,6 +481,28 @@ export const ManuscriptsGalleryView: React.FC = () => {
               </button>
             )}
 
+            {/* Complete Project ZIP with all 74 images */}
+            <button
+              onClick={handleExportCompleteProjectZip}
+              disabled={isExportingZip}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-black text-xs sm:text-sm shadow-md transition cursor-pointer border border-emerald-400/60 disabled:opacity-50"
+              title="تصدير وتحميل كامل المشروع مع الـ 74 صورة في ملف ZIP جاهز لـ WebToApp وأندرويد"
+            >
+              <FileArchive className="w-4 h-4 text-emerald-100" />
+              <span>{isExportingZip ? 'جاري تصدير الحزمة...' : '[تحميل كامل المشروع مع الـ 74 صورة (ZIP)]'}</span>
+            </button>
+
+            {/* Direct Link to Server ZIP */}
+            <a
+              href="/Sharh-AlBahr-WebToApp-Ready.zip"
+              download="Sharh-AlBahr-WebToApp-Ready.zip"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-stone-900 hover:bg-stone-800 text-amber-300 font-bold text-xs sm:text-sm shadow-md transition cursor-pointer border border-amber-500/40"
+              title="تنزيل مباشر لحزمة WebToApp الجاهزة"
+            >
+              <Download className="w-4 h-4 text-amber-400" />
+              <span>رابط مباشر (ZIP)</span>
+            </a>
+
             <div className="text-xs text-amber-300/90 mr-auto font-bold bg-amber-900/40 px-3.5 py-2 rounded-lg border border-amber-700/50">
               عدد الوثائق المحفوظة في المستودع: {galleryImages.length} وثيقة
             </div>
@@ -476,27 +536,32 @@ export const ManuscriptsGalleryView: React.FC = () => {
             </p>
           </div>
 
-          {/* Export Controls for ALL Visitors */}
+          {/* Export Controls - Visible exclusively for Administrator (Admin) */}
           <div className="flex flex-wrap items-center justify-center gap-2.5">
-            {/* PDF Download Button */}
-            <button
-              onClick={() => exportLineageToPdf()}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-700 to-emerald-600 hover:from-emerald-600 hover:to-emerald-500 text-amber-200 text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition cursor-pointer border border-emerald-400/50"
-              title="تحميل الوثائق والمشجر بصيغة PDF"
-            >
-              <Download className="w-4 h-4 text-amber-300" />
-              <span>[تحميل الوثائق بصيغة PDF]</span>
-            </button>
+            {/* Admin-only PDF & Word Export Controls */}
+            {isAdmin && (
+              <>
+                {/* PDF Download Button */}
+                <button
+                  onClick={() => exportLineageToPdf()}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-700 to-emerald-600 hover:from-emerald-600 hover:to-emerald-500 text-amber-200 text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition cursor-pointer border border-emerald-400/50"
+                  title="تحميل الوثائق والمشجر بصيغة PDF"
+                >
+                  <Download className="w-4 h-4 text-amber-300" />
+                  <span>[تحميل الوثائق بصيغة PDF]</span>
+                </button>
 
-            {/* Word Download Button */}
-            <button
-              onClick={() => exportLineageToDoc()}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 text-xs sm:text-sm font-black shadow-md hover:shadow-lg transition cursor-pointer border border-amber-300"
-              title="تحميل الوثائق والمشجر بصيغة Word"
-            >
-              <FileText className="w-4 h-4 text-stone-950" />
-              <span>[تحميل الوثائق بصيغة Word]</span>
-            </button>
+                {/* Word Download Button */}
+                <button
+                  onClick={() => exportLineageToDoc()}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 text-xs sm:text-sm font-black shadow-md hover:shadow-lg transition cursor-pointer border border-amber-300"
+                  title="تحميل الوثائق والمشجر بصيغة Word"
+                >
+                  <FileText className="w-4 h-4 text-stone-950" />
+                  <span>[تحميل الوثائق بصيغة Word]</span>
+                </button>
+              </>
+            )}
 
             {/* Column Layout Density */}
             {galleryImages.length > 0 && (

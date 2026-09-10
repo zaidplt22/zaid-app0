@@ -18,7 +18,7 @@ export function exportLineageToPdf(): void {
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
-  <title>وثيقة أعقاب شارح البحر الشريفة</title>
+  <title>كتاب آل الجنيد في تعز - من أعقاب شارح البحر الحضرمي</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;900&display=swap');
     
@@ -393,37 +393,23 @@ export function exportLineageToPdf(): void {
   <!-- PAGE 1: TITLE PAGE (صفحة الغلاف والعنوان) -->
   <!-- ========================================================================= -->
   <div class="pdf-cover-page">
-    <div style="width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center;">
-      <div style="font-family: 'Amiri', serif; font-size: 20pt; color: #064e3b; margin-bottom: 20px; font-weight: bold; letter-spacing: 1px;">
+    <div style="width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; justify-content: center; height: 100%;">
+      <div style="font-family: 'Amiri', serif; font-size: 22pt; color: #064e3b; margin-bottom: 24px; font-weight: bold; letter-spacing: 1px;">
         بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
       </div>
 
-      <div style="font-family: 'Amiri', 'Traditional Arabic', serif; font-size: 28pt; font-weight: bold; color: #064e3b; line-height: 1.4; margin-bottom: 14px; max-width: 96%;">
-        من أعقاب شارح البحر: أحمد بن عبد الله الحضرمي
+      <div style="font-family: 'Cairo', 'Amiri', serif; font-size: 28pt; font-weight: 900; color: #064e3b; line-height: 1.45; margin-bottom: 20px; max-width: 96%;">
+        كتاب آل الجنيد في تعز - من أعقاب شارح البحر الحضرمي
       </div>
 
-      <div style="font-family: 'Cairo', sans-serif; font-size: 22pt; font-weight: 800; color: #92400e; margin-bottom: 18px;">
-        آل الجنيد في تعز
-      </div>
+      <div style="width: 220px; height: 3px; background: linear-gradient(to right, transparent, #b45309, transparent); margin: 8px auto 28px;"></div>
 
-      <div style="width: 200px; height: 3px; background: linear-gradient(to right, transparent, #b45309, transparent); margin: 6px auto 20px;"></div>
-
-      <div style="font-family: 'Cairo', sans-serif; font-size: 15pt; color: #57534e; margin-bottom: 6px; font-weight: 600;">
+      <div style="font-family: 'Cairo', sans-serif; font-size: 16pt; color: #57534e; margin-bottom: 8px; font-weight: 600;">
         تأليف
       </div>
 
-      <div style="font-family: 'Cairo', sans-serif; font-size: 25pt; font-weight: 900; color: #065f46; margin-bottom: 20px;">
+      <div style="font-family: 'Cairo', sans-serif; font-size: 27pt; font-weight: 900; color: #065f46; margin-bottom: 20px;">
         عبد الإله عبد القادر الجنيد
-      </div>
-    </div>
-
-    <!-- Lineage Box -->
-    <div style="width: 100%; padding: 20px 24px; background: #f0fdf4; border: 2px solid #86efac; border-radius: 10px; text-align: justify; box-shadow: inset 0 0 0 1px #bbf7d0;">
-      <strong style="color: #064e3b; display: block; margin-bottom: 8px; font-family: 'Cairo', sans-serif; font-size: 14pt; text-align: center; border-bottom: 1.5px solid #86efac; padding-bottom: 6px;">
-        عمود النسب الشريف المتصل:
-      </strong>
-      <div style="font-size: 12.5pt; line-height: 2.1; color: #14532d; font-family: 'Amiri', serif; font-weight: 600;">
-        أحمد بن عبد الله الحضرمي بن محمد بن محمد بن علي بن القاسم بن أحمد الشيخ البركاني بن شارح البحر الشيخ سعيد بن أبي الأسرار علي بن إبراهيم السروري بن علي بن محمد بن الحسن بن المحسن بن يحيى الصوفي بن جعفر الزكي بن الإمام الهادي علي النقي بن الإمام الجواد محمد التقي بن الإمام علي الرضا بن الإمام موسى الكاظم بن الإمام جعفر الصادق بن الإمام محمد الباقر بن الإمام علي زين العابدين بن سيد شباب أهل الجنة وسبط رسول الله وسيد الشهداء الإمام الحسين بن الإمام علي بن أبي طالب سلام الله عليهم أجمعين
       </div>
     </div>
   </div>
@@ -498,7 +484,7 @@ export function exportLineageToPdf(): void {
   <!-- BANNER -->
   <div class="header-banner">
     <div class="basmalah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-    <h1 class="main-title">وثيقة نسب وأعقاب شارح البحر</h1>
+    <h1 class="main-title">كتاب آل الجنيد في تعز - من أعقاب شارح البحر الحضرمي</h1>
     <p class="sub-title">آل الجنيد • آل البركاني • آل السروري (السادة الرضويون الحسينيون)</p>
   </div>
 
@@ -553,93 +539,24 @@ export function exportLineageToPdf(): void {
     </div>
   </div>
 
-  <!-- 4. HISTORICAL MANUSCRIPTS & DOCUMENTS TEXT (النصوص التوثيقية للمراجع التاريخية) -->
-  <div class="section-container">
-    <div class="section-heading">٤. النصوص والبيانات التوثيقية للمراجع التاريخية المحققة (63 مرجعاً)</div>
-    <div class="manuscripts-list">
-  `;
-
-  historicalManuscriptsList.forEach((manuscript) => {
-    html += `
-      <div class="manuscript-card-pdf">
-        <div class="manuscript-title-pdf">
-          <span class="manuscript-badge-pdf">المرجع (${manuscript.referenceNumber})</span>
-          ${manuscript.title}
-        </div>
-        <div style="font-size: 10pt; color: #57534e; margin-bottom: 6px;">
-          <strong>التصنيف:</strong> ${manuscript.categoryLabel} | <strong>التاريخ:</strong> ${manuscript.dateOrEra} | <strong>الأرشيف:</strong> ${manuscript.archiveLocation}
-        </div>
-        <div style="font-size: 11pt; color: #1c1917; line-height: 1.6;">
-          ${manuscript.description}
-        </div>
-        <div class="manuscript-proof-box">
-          <strong>دلالة الإثبات النسبي والتاريخي:</strong> ${manuscript.proofSignificance}
-        </div>
-      </div>
-    `;
-  });
-
-  html += `
-    </div>
-  </div>
-
-  <!-- PAGE BREAK BEFORE IMAGE GALLERY -->
-  <div class="page-break"></div>
-
-  <!-- 5. UNIFIED HIGH-RESOLUTION MANUSCRIPT PHOTOS (معرض صور الوثائق والمخطوطات الأصلية) -->
-  <div class="section-container">
-    <div class="section-heading">٥. معرض وألبوم صور الوثائق والمخطوطات التاريخية الأصلية (${manuscriptImages.length} وثيقة)</div>
-    <p style="font-size: 11pt; color: #57534e; margin-bottom: 20px;">
-      يحتوي هذا المعرض على كافة الصور والمخطوطات الأصلية المعتمدة المرفقة بكامل الدقة والوضوح (100%) دون اقتطاع.
-    </p>
-    <div class="gallery-images-pdf-grid">
-  `;
-
-  manuscriptImages.forEach((img) => {
-    if (img.imageUrl && img.imageUrl.trim().length > 0) {
-      html += `
-        <div class="gallery-image-item">
-          <img src="${img.imageUrl}" alt="${img.title}" class="gallery-full-img" />
-          <div class="gallery-image-caption">وثيقة (${img.imageIndex}): ${img.title}</div>
-          <div class="gallery-image-filename">${img.fileName} • ${img.era} • ${img.archive}</div>
-        </div>
-      `;
-    } else {
-      html += `
-        <div class="gallery-image-item" style="background: #fdfbf7; border: 2px solid #b45309; padding: 16px;">
-          <div style="font-family: 'Cairo', sans-serif; font-size: 13pt; font-weight: bold; color: #78350f;">
-            وثيقة أرشيفية معتمدة رقم (${img.imageIndex}): ${img.title}
-          </div>
-          <div style="font-size: 10pt; color: #57534e; margin: 6px 0;">
-            <strong>التصنيف:</strong> ${img.categoryLabel} | <strong>الحقبة:</strong> ${img.era} | <strong>الأرشيف:</strong> ${img.archive}
-          </div>
-          <div style="font-size: 11pt; color: #1c1917; line-height: 1.6;">
-            ${img.description}
-          </div>
-          <div style="font-size: 9.5pt; color: #065f46; margin-top: 6px; font-weight: bold;">
-            أصل الوثيقة مسجل ومحفوظ في خزانة السجلات التاريخية لذرية شارح البحر
-          </div>
-        </div>
-      `;
-    }
-  });
-
-  html += `
-    </div>
-  </div>
-
   <!-- PAGE BREAK BEFORE TREE -->
   <div class="page-break"></div>
 
-  <!-- 6. COMPLETE SEQUENTIAL LINEAGE TREE (المشجر الهرمي التتابعي الكامل) -->
+  <!-- 4. COMPLETE SEQUENTIAL LINEAGE TREE (المشجر الهرمي التتابعي الكامل) -->
   <div class="section-container">
-    <div class="section-heading">٦. المشجر الهرمي التتابعي الموثق بالأكواد والأجيال</div>
+    <div class="section-heading">٤. المشجر الهرمي التتابعي الموثق بالأكواد والأجيال</div>
     <div class="tree-grid">
   `;
 
   sequentialLineageBlocks.forEach((block, idx) => {
     const validChildren = block.children.filter(
-      (c) => c.name && c.name.trim() !== '' && c.name.trim() !== '-' && !c.name.includes('لم تتم موافاتنا')
+      (c) =>
+        c.name &&
+        c.name.trim() !== '' &&
+        c.name.trim() !== '-' &&
+        c.name.trim() !== 'بن' &&
+        !/^بن\s*$/.test(c.name.trim()) &&
+        !c.name.includes('لم تتم موافاتنا')
     );
 
     if (validChildren.length === 0) {
@@ -678,6 +595,84 @@ export function exportLineageToPdf(): void {
       });
 
       html += `
+          </div>
+        </div>
+      `;
+    }
+  });
+
+  html += `
+    </div>
+  </div>
+
+  <!-- PAGE BREAK BEFORE HISTORICAL REFERENCES -->
+  <div class="page-break"></div>
+
+  <!-- 5. HISTORICAL MANUSCRIPTS & DOCUMENTS TEXT (النصوص والبيانات التوثيقية للمراجع التاريخية) -->
+  <div class="section-container">
+    <div class="section-heading">٥. النصوص والبيانات التوثيقية للمراجع التاريخية المحققة (63 مرجعاً)</div>
+    <div class="manuscripts-list">
+  `;
+
+  historicalManuscriptsList.forEach((manuscript) => {
+    html += `
+      <div class="manuscript-card-pdf">
+        <div class="manuscript-title-pdf">
+          <span class="manuscript-badge-pdf">المرجع (${manuscript.referenceNumber})</span>
+          ${manuscript.title}
+        </div>
+        <div style="font-size: 10pt; color: #57534e; margin-bottom: 6px;">
+          <strong>التصنيف:</strong> ${manuscript.categoryLabel} | <strong>التاريخ:</strong> ${manuscript.dateOrEra} | <strong>الأرشيف:</strong> ${manuscript.archiveLocation}
+        </div>
+        <div style="font-size: 11pt; color: #1c1917; line-height: 1.6;">
+          ${manuscript.description}
+        </div>
+        <div class="manuscript-proof-box">
+          <strong>دلالة الإثبات النسبي والتاريخي:</strong> ${manuscript.proofSignificance}
+        </div>
+      </div>
+    `;
+  });
+
+  html += `
+    </div>
+  </div>
+
+  <!-- PAGE BREAK BEFORE IMAGE GALLERY -->
+  <div class="page-break"></div>
+
+  <!-- 6. UNIFIED HIGH-RESOLUTION MANUSCRIPT PHOTOS (معرض صور الوثائق والمخطوطات الأصلية) -->
+  <div class="section-container">
+    <div class="section-heading">٦. معرض وألبوم صور الوثائق والمخطوطات التاريخية الأصلية (${manuscriptImages.length} وثيقة)</div>
+    <p style="font-size: 11pt; color: #57534e; margin-bottom: 20px;">
+      يحتوي هذا المعرض على كافة الصور والمخطوطات الأصلية المعتمدة المرفقة بكامل الدقة والوضوح (100%) دون اقتطاع.
+    </p>
+    <div class="gallery-images-pdf-grid">
+  `;
+
+  manuscriptImages.forEach((img) => {
+    if (img.imageUrl && img.imageUrl.trim().length > 0) {
+      html += `
+        <div class="gallery-image-item">
+          <img src="${img.imageUrl}" alt="${img.title}" class="gallery-full-img" />
+          <div class="gallery-image-caption">وثيقة (${img.imageIndex}): ${img.title}</div>
+          <div class="gallery-image-filename">${img.fileName} • ${img.era} • ${img.archive}</div>
+        </div>
+      `;
+    } else {
+      html += `
+        <div class="gallery-image-item" style="background: #fdfbf7; border: 2px solid #b45309; padding: 16px;">
+          <div style="font-family: 'Cairo', sans-serif; font-size: 13pt; font-weight: bold; color: #78350f;">
+            وثيقة أرشيفية معتمدة رقم (${img.imageIndex}): ${img.title}
+          </div>
+          <div style="font-size: 10pt; color: #57534e; margin: 6px 0;">
+            <strong>التصنيف:</strong> ${img.categoryLabel} | <strong>الحقبة:</strong> ${img.era} | <strong>الأرشيف:</strong> ${img.archive}
+          </div>
+          <div style="font-size: 11pt; color: #1c1917; line-height: 1.6;">
+            ${img.description}
+          </div>
+          <div style="font-size: 9.5pt; color: #065f46; margin-top: 6px; font-weight: bold;">
+            أصل الوثيقة مسجل ومحفوظ في خزانة السجلات التاريخية لذرية شارح البحر
           </div>
         </div>
       `;
@@ -762,7 +757,7 @@ export function exportBranchLineageToPdf(
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
-  <title>وثيقة نسب فرع: ${cleanTitle}</title>
+  <title>كتاب نسب فرع: ${cleanTitle}</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;900&display=swap');
     
@@ -1044,37 +1039,23 @@ export function exportBranchLineageToPdf(
   <!-- PAGE 1: TITLE PAGE (صفحة الغلاف والعنوان) -->
   <!-- ========================================================================= -->
   <div class="pdf-cover-page">
-    <div style="width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center;">
-      <div style="font-family: 'Amiri', serif; font-size: 20pt; color: #064e3b; margin-bottom: 20px; font-weight: bold; letter-spacing: 1px;">
+    <div style="width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; justify-content: center; height: 100%;">
+      <div style="font-family: 'Amiri', serif; font-size: 22pt; color: #064e3b; margin-bottom: 24px; font-weight: bold; letter-spacing: 1px;">
         بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
       </div>
 
-      <div style="font-family: 'Amiri', 'Traditional Arabic', serif; font-size: 28pt; font-weight: bold; color: #064e3b; line-height: 1.4; margin-bottom: 14px; max-width: 96%;">
-        من أعقاب شارح البحر: أحمد بن عبد الله الحضرمي
+      <div style="font-family: 'Cairo', 'Amiri', serif; font-size: 28pt; font-weight: 900; color: #064e3b; line-height: 1.45; margin-bottom: 20px; max-width: 96%;">
+        كتاب آل الجنيد في تعز - من أعقاب شارح البحر الحضرمي
       </div>
 
-      <div style="font-family: 'Cairo', sans-serif; font-size: 22pt; font-weight: 800; color: #92400e; margin-bottom: 18px;">
-        آل الجنيد في تعز
-      </div>
+      <div style="width: 220px; height: 3px; background: linear-gradient(to right, transparent, #b45309, transparent); margin: 8px auto 28px;"></div>
 
-      <div style="width: 200px; height: 3px; background: linear-gradient(to right, transparent, #b45309, transparent); margin: 6px auto 20px;"></div>
-
-      <div style="font-family: 'Cairo', sans-serif; font-size: 15pt; color: #57534e; margin-bottom: 6px; font-weight: 600;">
+      <div style="font-family: 'Cairo', sans-serif; font-size: 16pt; color: #57534e; margin-bottom: 8px; font-weight: 600;">
         تأليف
       </div>
 
-      <div style="font-family: 'Cairo', sans-serif; font-size: 25pt; font-weight: 900; color: #065f46; margin-bottom: 20px;">
+      <div style="font-family: 'Cairo', sans-serif; font-size: 27pt; font-weight: 900; color: #065f46; margin-bottom: 20px;">
         عبد الإله عبد القادر الجنيد
-      </div>
-    </div>
-
-    <!-- Lineage Box -->
-    <div style="width: 100%; padding: 20px 24px; background: #f0fdf4; border: 2px solid #86efac; border-radius: 10px; text-align: justify; box-shadow: inset 0 0 0 1px #bbf7d0;">
-      <strong style="color: #064e3b; display: block; margin-bottom: 8px; font-family: 'Cairo', sans-serif; font-size: 14pt; text-align: center; border-bottom: 1.5px solid #86efac; padding-bottom: 6px;">
-        عمود النسب الشريف المتصل:
-      </strong>
-      <div style="font-size: 12.5pt; line-height: 2.1; color: #14532d; font-family: 'Amiri', serif; font-weight: 600;">
-        أحمد بن عبد الله الحضرمي بن محمد بن محمد بن علي بن القاسم بن أحمد الشيخ البركاني بن شارح البحر الشيخ سعيد بن أبي الأسرار علي بن إبراهيم السروري بن علي بن محمد بن الحسن بن المحسن بن يحيى الصوفي بن جعفر الزكي بن الإمام الهادي علي النقي بن الإمام الجواد محمد التقي بن الإمام علي الرضا بن الإمام موسى الكاظم بن الإمام جعفر الصادق بن الإمام محمد الباقر بن الإمام علي زين العابدين بن سيد شباب أهل الجنة وسبط رسول الله وسيد الشهداء الإمام الحسين بن الإمام علي بن أبي طالب سلام الله عليهم أجمعين
       </div>
     </div>
   </div>
@@ -1158,11 +1139,11 @@ export function exportBranchLineageToPdf(
 
   <div class="branch-summary-box">
     <div style="font-family: 'Cairo', sans-serif; font-weight: bold; font-size: 12pt; color: #064e3b; margin-bottom: 6px;">
-      وثيقة المشجر المستخرج الخاص بالفرع والذرية المباركة:
+      كتاب ومخطط المشجر المستخرج الخاص بالفرع والذرية المباركة:
     </div>
     <div style="font-size: 11pt; color: #334155; line-height: 1.8;">
       ${targetNode ? `<strong>الجد الجامع للفرع:</strong> ${targetNode.fatherName} <br/>` : ''}
-      <strong>نطاق الوثيقة:</strong> تتضمن هذه الوثيقة المخصصة عمود النسب الشريف، وسلسلة الآباء والأجداد وصولاً إلى الجد الجامع للفرع، وكافة أعقابه وذريته الموثقة في مشجر شارح البحر.
+      <strong>نطاق الكتاب:</strong> يتضمن هذا الكتاب المخصص عمود النسب الشريف، وسلسلة الآباء والأجداد وصولاً إلى الجد الجامع للفرع، وكافة أعقابه وذريته الموثقة في مشجر شارح البحر.
       <br/>
       <strong>إجمالي الكتل النسبية الموثقة في هذا الفرع:</strong> ${branchBlocks.length} كتلة توثيقية.
     </div>
@@ -1215,7 +1196,13 @@ export function exportBranchLineageToPdf(
       .replace(/^أعقاب:\s*/, '');
 
     const validChildren = block.children.filter(
-      (c) => c.name && c.name.trim() !== '' && c.name.trim() !== '-' && !c.name.includes('لم تتم موافاتنا')
+      (c) =>
+        c.name &&
+        c.name.trim() !== '' &&
+        c.name.trim() !== '-' &&
+        c.name.trim() !== 'بن' &&
+        !/^بن\s*$/.test(c.name.trim()) &&
+        !c.name.includes('لم تتم موافاتنا')
     );
 
     if (validChildren.length === 0) {
@@ -1599,7 +1586,7 @@ export function exportBranchTreeDiagramToPdf(hierarchy: BranchHierarchyResult): 
       </div>
 
       <div style="font-family: 'Cairo', sans-serif; font-size: 18pt; font-weight: 800; color: #92400e; margin-bottom: 12px;">
-        وثيقة المخطط الشجري التفاعلي لنسب فرع:
+        كتاب ومخطط نسب فرع:
       </div>
 
       <div style="background: #fef3c7; border: 2.5px solid #d97706; padding: 10px 24px; border-radius: 12px; display: inline-block; margin-bottom: 14px; box-shadow: 0 4px 6px rgba(217,119,6,0.15);">
@@ -1638,11 +1625,11 @@ export function exportBranchTreeDiagramToPdf(hierarchy: BranchHierarchyResult): 
     <!-- Bottom verification seal -->
     <div style="width: 100%; display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid #cbd5e1; padding-top: 10px;">
       <div style="text-align: right; font-size: 8.5pt; color: #64748b;">
-        <div>تاريخ استخراج الوثيقة: ${new Date().toLocaleDateString('ar-SA')} م</div>
+        <div>تاريخ استخراج الكتاب/المخطط: ${new Date().toLocaleDateString('ar-SA')} م</div>
         <div>نظام توثيق مشجر السادة الأشراف آل الجنيد باليمن</div>
       </div>
       <div style="text-align: center; border: 1.5px dashed #059669; padding: 6px 16px; border-radius: 8px; background: #ecfdf5;">
-        <div style="font-size: 9pt; font-weight: bold; color: #065f46;">وثيقة معتمدة ومحققة</div>
+        <div style="font-size: 9pt; font-weight: bold; color: #065f46;">كتاب معتمد ومحقق</div>
         <div style="font-size: 7.5pt; color: #047857;">مخطط شجري تسلسلي</div>
       </div>
     </div>
@@ -1711,7 +1698,7 @@ export function exportBranchTreeDiagramToPdf(hierarchy: BranchHierarchyResult): 
     </div>
 
     <div style="text-align: center; font-size: 8.5pt; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 8px;">
-      جميع الحقوق محفوظة © وثيقة مشجر آل الجنيد في تعز • تحقيق وتوثيق: عبد الإله عبد القادر الجنيد
+      جميع الحقوق محفوظة © كتاب آل الجنيد في تعز - من أعقاب شارح البحر الحضرمي • تحقيق وتوثيق: عبد الإله عبد القادر الجنيد
     </div>
   </div>
 
@@ -1784,8 +1771,8 @@ export function exportBranchTreeDiagramToPdf(hierarchy: BranchHierarchyResult): 
 
 export function exportLineageToTxt(): void {
   const doc = comprehensiveDocumentation;
-  let output = 'من أعقاب شارح البحر: أحمد بن عبد الله الحضرمي\n';
-  output += 'آل الجنيد في تعز\n\n';
+  const manuscriptImages = getActiveManuscriptImages();
+  let output = 'كتاب آل الجنيد في تعز - من أعقاب شارح البحر الحضرمي\n\n';
   output += 'تأليف:\nعبد الإله عبد القادر الجنيد\n\n';
   output += '===============================================================\n';
   output += 'شكر وتقدير:\n';
@@ -1812,21 +1799,40 @@ export function exportLineageToTxt(): void {
   output += '- عدنان بن عبد الله بن سرور الجنيد\n';
   output += '- خالد بن عثمان البركاني\n';
   output += '- أمين البركاني\n\n';
-  output += '===============================================================\n';
-  output += 'عمود النسب الشريف المتصل:\n';
-  output += 'أحمد بن عبد الله الحضرمي بن محمد بن محمد بن علي بن القاسم بن أحمد الشيخ البركاني بن شارح البحر الشيخ سعيد بن أبي الأسرار علي بن إبراهيم السروري بن علي بن محمد بن الحسن بن المحسن بن يحيى الصوفي بن جعفر الزكي بن الإمام الهادي علي النقي بن الإمام الجواد محمد التقي بن الإمام علي الرضا بن الإمام موسى الكاظم بن الإمام جعفر الصادق بن الإمام محمد الباقر بن الإمام علي زين العابدين بن سيد شباب أهل الجنة وسبط رسول الله وسيد الشهداء الإمام الحسين بن الإمام علي بن أبي طالب سلام الله عليهم أجمعين\n';
   output += '===============================================================\n\n';
 
   output += 'المقدمة التوثيقية والمنهجية الكاملة:\n';
   output += '---------------------------------------------------------------\n';
   output += (doc.introduction.fullPrefaceText || doc.introduction.text) + '\n\n';
+
+  output += '===============================================================\n';
+  output += 'أهداف توثيق وحفظ المشجر الشريف:\n';
+  output += '---------------------------------------------------------------\n';
+  (doc.objectives.items || []).forEach((obj, idx) => {
+    output += `[${idx + 1}] ${obj.title}: ${obj.description}\n`;
+  });
+  output += '\n===============================================================\n';
+  output += 'المصادر والمراجع والوثائق الشرعية المعتمدة:\n';
+  output += '---------------------------------------------------------------\n';
+  doc.sources.forEach((s, idx) => {
+    output += `[${idx + 1}] ${s.title} (${s.dateOrCentury})\n`;
+    output += `     جهة التوثيق: ${s.authorOrCustodian} | الموضع: ${s.archiveLocation}\n`;
+    output += `     البيان: ${s.description}\n\n`;
+  });
+
   output += '===============================================================\n';
   output += 'المشجر الهرمي التتابعي الموثق بالأكواد والأجيال:\n';
   output += '===============================================================\n\n';
 
   sequentialLineageBlocks.forEach((block, idx) => {
     const validChildren = block.children.filter(
-      (c) => c.name && c.name.trim() !== '' && c.name.trim() !== '-' && !c.name.includes('لم تتم موافاتنا')
+      (c) =>
+        c.name &&
+        c.name.trim() !== '' &&
+        c.name.trim() !== '-' &&
+        c.name.trim() !== 'بن' &&
+        !/^بن\s*$/.test(c.name.trim()) &&
+        !c.name.includes('لم تتم موافاتنا')
     );
 
     if (validChildren.length === 0) {
@@ -1848,6 +1854,29 @@ export function exportLineageToTxt(): void {
     output += '---------------------------------------------------------------\n';
   });
 
+  // النصوص والبيانات التوثيقية للمراجع التاريخية المحققة (63 مرجعاً)
+  output += '\n===============================================================\n';
+  output += 'النصوص والبيانات التوثيقية للمراجع التاريخية المحققة (63 مرجعاً):\n';
+  output += '===============================================================\n\n';
+  historicalManuscriptsList.forEach((m) => {
+    output += `[المرجع ${m.referenceNumber}] ${m.title}\n`;
+    output += `التصنيف: ${m.categoryLabel} | التاريخ: ${m.dateOrEra} | المحفوظ في: ${m.archiveLocation}\n`;
+    output += `الوصف والبيان: ${m.description}\n`;
+    output += `دلالة الإثبات النسبي والتاريخي: ${m.proofSignificance}\n`;
+    output += '---------------------------------------------------------------\n';
+  });
+
+  // معرض وألبوم صور الوثائق والمخطوطات التاريخية الأصلية (74 وثيقة)
+  output += '\n===============================================================\n';
+  output += `معرض وألبوم صور الوثائق والمخطوطات التاريخية الأصلية (${manuscriptImages.length} وثيقة):\n`;
+  output += '===============================================================\n\n';
+  manuscriptImages.forEach((img) => {
+    output += `[وثيقة أرشيفية رقم ${img.imageIndex}] ${img.title}\n`;
+    output += `التصنيف: ${img.categoryLabel} | الحقبة: ${img.era} | الأرشيف: ${img.archive}\n`;
+    output += `البيان والتعليق: ${img.description}\n`;
+    output += '---------------------------------------------------------------\n';
+  });
+
   const blob = new Blob([output], { type: 'text/plain;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -1866,7 +1895,7 @@ export function exportLineageToDoc(): void {
     <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
     <head>
       <meta charset="utf-8">
-      <title>وثيقة أعقاب شارح البحر</title>
+      <title>كتاب آل الجنيد في تعز</title>
       <style>
         body { font-family: 'Traditional Arabic', 'Arial', sans-serif; direction: rtl; text-align: right; margin: 20px; line-height: 1.8; }
         h1 { color: #064e3b; text-align: center; font-size: 22pt; margin-bottom: 5px; }
@@ -1888,14 +1917,9 @@ export function exportLineageToDoc(): void {
       <!-- TITLE PAGE -->
       <div style="text-align: center; margin-bottom: 40px; padding: 30px; border: 2px solid #b45309; background-color: #fdfbf7;">
         <div style="font-size: 16pt; margin-bottom: 15px;">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-        <h1 style="font-size: 24pt; color: #064e3b; margin-bottom: 8px;">من أعقاب شارح البحر: أحمد بن عبد الله الحضرمي</h1>
-        <h2 style="font-size: 18pt; color: #92400e; margin-bottom: 20px;">آل الجنيد في تعز</h2>
+        <h1 style="font-size: 24pt; color: #064e3b; margin-bottom: 8px;">كتاب آل الجنيد في تعز - من أعقاب شارح البحر الحضرمي</h1>
         <div style="font-size: 13pt; color: #57534e;">تأليف</div>
         <div style="font-size: 20pt; font-weight: bold; color: #065f46; margin-bottom: 20px;">عبد الإله عبد القادر الجنيد</div>
-        <div style="margin-top: 15px; padding: 10px; background: #f0fdf4; border: 1px solid #bbf7d0; font-size: 11pt; text-align: justify; line-height: 1.8;">
-          <strong>عمود النسب الشريف المتصل:</strong><br/>
-          أحمد بن عبد الله الحضرمي بن محمد بن محمد بن علي بن القاسم بن أحمد الشيخ البركاني بن شارح البحر الشيخ سعيد بن أبي الأسرار علي بن إبراهيم السروري بن علي بن محمد بن الحسن بن المحسن بن يحيى الصوفي بن جعفر الزكي بن الإمام الهادي علي النقي بن الإمام الجواد محمد التقي بن الإمام علي الرضا بن الإمام موسى الكاظم بن الإمام جعفر الصادق بن الإمام محمد الباقر بن الإمام علي زين العابدين بن سيد شباب أهل الجنة وسبط رسول الله وسيد الشهداء الإمام الحسين بن الإمام علي بن أبي طالب سلام الله عليهم أجمعين
-        </div>
       </div>
 
       <!-- CREDITS PAGE -->
@@ -1941,9 +1965,6 @@ export function exportLineageToDoc(): void {
         </div>
       </div>
 
-      <h1>وثيقة نسب وأعقاب شارح البحر</h1>
-      <div class="subhead">آل الجنيد • آل البركاني • آل السروري — المشجر الهرمي التتابعي الكامل</div>
-      
       <div class="section-title">١. المقدمة التوثيقية والمنهجية الكاملة</div>
       <div class="preface-box">
         ${(doc.introduction.fullPrefaceText || doc.introduction.text).replace(/\n/g, '<br/>')}
@@ -1960,61 +1981,18 @@ export function exportLineageToDoc(): void {
         `).join('')}
       </div>
 
-      <div class="section-title">٣. البيانات التوثيقية للمراجع التاريخية (63 مرجعاً)</div>
-      <div style="margin-bottom: 25px;">
-        ${historicalManuscriptsList.map((m) => `
-          <div style="border: 1px solid #d1d5db; padding: 12px; margin-bottom: 12px; border-radius: 6px; background: #ffffff;">
-            <div style="font-size: 14pt; font-weight: bold; color: #064e3b; margin-bottom: 5px;">
-              [المرجع ${m.referenceNumber}] ${m.title}
-            </div>
-            <div style="font-size: 11pt; color: #4b5563; margin-bottom: 6px;">
-              <strong>التصنيف:</strong> ${m.categoryLabel} | <strong>التاريخ:</strong> ${m.dateOrEra} | <strong>المحفوظ في:</strong> ${m.archiveLocation}
-            </div>
-            <div style="font-size: 12pt; color: #1f2937; margin-bottom: 6px;">
-              ${m.description}
-            </div>
-            <div style="background: #fefce8; border-right: 4px solid #eab308; padding: 6px 10px; font-size: 11pt; color: #713f12;">
-              <strong>دلالة الإثبات النسبي والتاريخي:</strong> ${m.proofSignificance}
-            </div>
-          </div>
-        `).join('')}
-      </div>
-
-      <div class="section-title">٤. معرض وألبوم صور الوثائق والمخطوطات الأصلية (${manuscriptImages.length} وثيقة)</div>
-      <div style="margin-bottom: 25px;">
-        ${manuscriptImages.map((img) => {
-          if (img.imageUrl && img.imageUrl.trim().length > 0) {
-            return `
-              <div class="gallery-doc-item" style="text-align: center; margin-bottom: 20px; page-break-inside: avoid;">
-                <img src="${img.imageUrl}" alt="${img.title}" style="max-height: 700px; max-width: 100%; border: 1px solid #d6d3d1; border-radius: 4px;" />
-                <div style="font-weight: bold; color: #064e3b; margin-top: 5px;">وثيقة (${img.imageIndex}): ${img.title}</div>
-                <div style="font-size: 9pt; color: #6b7280;">${img.fileName} • ${img.era} • ${img.archive}</div>
-              </div>
-            `;
-          } else {
-            return `
-              <div style="background: #fdfbf7; border: 1px solid #b45309; padding: 12px; margin-bottom: 12px; border-radius: 6px;">
-                <div style="font-weight: bold; color: #78350f; font-size: 12pt;">
-                  وثيقة أرشيفية معتمدة رقم (${img.imageIndex}): ${img.title}
-                </div>
-                <div style="font-size: 10pt; color: #4b5563; margin: 4px 0;">
-                  <strong>التصنيف:</strong> ${img.categoryLabel} | <strong>الحقبة:</strong> ${img.era} | <strong>الأرشيف:</strong> ${img.archive}
-                </div>
-                <div style="font-size: 11pt; color: #1f2937;">
-                  ${img.description}
-                </div>
-              </div>
-            `;
-          }
-        }).join('')}
-      </div>
-
-      <div class="section-title">٥. المشجر الهرمي التتابعي الموثق بالأكواد والأجيال</div>
+      <div class="section-title">٣. المشجر الهرمي التتابعي الموثق بالأكواد والأجيال</div>
   `;
 
   sequentialLineageBlocks.forEach((block, idx) => {
     const validChildren = block.children.filter(
-      (c) => c.name && c.name.trim() !== '' && c.name.trim() !== '-' && !c.name.includes('لم تتم موافاتنا')
+      (c) =>
+        c.name &&
+        c.name.trim() !== '' &&
+        c.name.trim() !== '-' &&
+        c.name.trim() !== 'بن' &&
+        !/^بن\s*$/.test(c.name.trim()) &&
+        !c.name.includes('لم تتم موافاتنا')
     );
 
     if (validChildren.length === 0) {
@@ -2047,6 +2025,57 @@ export function exportLineageToDoc(): void {
       `;
     }
   });
+
+  html += `
+      <div class="section-title">٤. النصوص والبيانات التوثيقية للمراجع التاريخية المحققة (63 مرجعاً)</div>
+      <div style="margin-bottom: 25px;">
+        ${historicalManuscriptsList.map((m) => `
+          <div style="border: 1px solid #d1d5db; padding: 12px; margin-bottom: 12px; border-radius: 6px; background: #ffffff;">
+            <div style="font-size: 14pt; font-weight: bold; color: #064e3b; margin-bottom: 5px;">
+              [المرجع ${m.referenceNumber}] ${m.title}
+            </div>
+            <div style="font-size: 11pt; color: #4b5563; margin-bottom: 6px;">
+              <strong>التصنيف:</strong> ${m.categoryLabel} | <strong>التاريخ:</strong> ${m.dateOrEra} | <strong>المحفوظ في:</strong> ${m.archiveLocation}
+            </div>
+            <div style="font-size: 12pt; color: #1f2937; margin-bottom: 6px;">
+              ${m.description}
+            </div>
+            <div style="background: #fefce8; border-right: 4px solid #eab308; padding: 6px 10px; font-size: 11pt; color: #713f12;">
+              <strong>دلالة الإثبات النسبي والتاريخي:</strong> ${m.proofSignificance}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="section-title">٥. معرض وألبوم صور الوثائق والمخطوطات الأصلية (${manuscriptImages.length} وثيقة)</div>
+      <div style="margin-bottom: 25px;">
+        ${manuscriptImages.map((img) => {
+          if (img.imageUrl && img.imageUrl.trim().length > 0) {
+            return `
+              <div class="gallery-doc-item" style="text-align: center; margin-bottom: 20px; page-break-inside: avoid;">
+                <img src="${img.imageUrl}" alt="${img.title}" style="max-height: 700px; max-width: 100%; border: 1px solid #d6d3d1; border-radius: 4px;" />
+                <div style="font-weight: bold; color: #064e3b; margin-top: 5px;">وثيقة (${img.imageIndex}): ${img.title}</div>
+                <div style="font-size: 9pt; color: #6b7280;">${img.fileName} • ${img.era} • ${img.archive}</div>
+              </div>
+            `;
+          } else {
+            return `
+              <div style="background: #fdfbf7; border: 1px solid #b45309; padding: 12px; margin-bottom: 12px; border-radius: 6px;">
+                <div style="font-weight: bold; color: #78350f; font-size: 12pt;">
+                  وثيقة أرشيفية معتمدة رقم (${img.imageIndex}): ${img.title}
+                </div>
+                <div style="font-size: 10pt; color: #4b5563; margin: 4px 0;">
+                  <strong>التصنيف:</strong> ${img.categoryLabel} | <strong>الحقبة:</strong> ${img.era} | <strong>الأرشيف:</strong> ${img.archive}
+                </div>
+                <div style="font-size: 11pt; color: #1f2937;">
+                  ${img.description}
+                </div>
+              </div>
+            `;
+          }
+        }).join('')}
+      </div>
+  `;
 
   html += `
     </body>

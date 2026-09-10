@@ -21,11 +21,15 @@ import { normalizeArabicForSearch } from '../utils/genealogyParser';
 interface BranchSearchSelectorProps {
   selectedBranch: string;
   setSelectedBranch: (branchId: string) => void;
+  mobileMode?: boolean;
+  className?: string;
 }
 
 export const BranchSearchSelector: React.FC<BranchSearchSelectorProps> = ({
   selectedBranch,
   setSelectedBranch,
+  mobileMode = false,
+  className = '',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -110,25 +114,47 @@ export const BranchSearchSelector: React.FC<BranchSearchSelectorProps> = ({
     : 'كل الفروع والأنساب';
 
   return (
-    <div ref={containerRef} className="relative font-cairo">
+    <div ref={containerRef} className={`relative font-cairo ${className} ${mobileMode ? 'w-full' : ''}`}>
       {/* Trigger Button */}
-      <div className="flex items-center gap-1.5">
+      <div className={`flex items-center gap-1.5 ${mobileMode ? 'w-full' : ''}`}>
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition shadow-xs cursor-pointer border ${
-            selectedBranch !== 'all'
-              ? 'bg-[#064e3b] text-emerald-100 border-emerald-400 hover:bg-[#075e47]'
-              : 'bg-[#021812] text-emerald-300 border-[#0d4f3d] hover:bg-[#07382c]'
-          }`}
-          title="تصفية واستعراض الفروع والأنساب"
+          className={
+            mobileMode
+              ? `w-full flex items-center justify-between gap-1.5 px-2.5 py-2 rounded-xl text-xs font-bold transition shadow-xs cursor-pointer border ${
+                  selectedBranch !== 'all'
+                    ? 'bg-[#064e3b] text-emerald-100 border-emerald-400 hover:bg-[#075e47]'
+                    : 'bg-[#021812] text-stone-300 border-[#0d4f3d] hover:bg-[#07382c]'
+                }`
+              : `flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition shadow-xs cursor-pointer border ${
+                  selectedBranch !== 'all'
+                    ? 'bg-[#064e3b] text-emerald-100 border-emerald-400 hover:bg-[#075e47]'
+                    : 'bg-[#021812] text-emerald-300 border-[#0d4f3d] hover:bg-[#07382c]'
+                }`
+          }
+          title={mobileMode ? "البحث عن فرع معين أو نسب معين" : "تصفية واستعراض الفروع والأنساب"}
         >
-          <GitFork className="w-4 h-4 text-emerald-400" />
-          <span className="text-stone-400 font-normal">الفرع:</span>
-          <span className="truncate max-w-[140px] sm:max-w-[200px] text-white font-bold">
-            {selectedBranch !== 'all' ? `فرع: ${currentDisplayName}` : 'كل الفروع والأنساب'}
-          </span>
-          <ChevronDown className={`w-3.5 h-3.5 text-stone-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+          {mobileMode ? (
+            <>
+              <div className="flex items-center gap-1.5 min-w-0">
+                <GitFork className={`w-3.5 h-3.5 shrink-0 ${selectedBranch !== 'all' ? 'text-amber-400' : 'text-emerald-400'}`} />
+                <span className="truncate text-right">
+                  {selectedBranch !== 'all' ? `فرع: ${currentDisplayName}` : 'البحث عن فرع معين أو نسب معين'}
+                </span>
+              </div>
+              <ChevronDown className={`w-3.5 h-3.5 text-stone-400 shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+            </>
+          ) : (
+            <>
+              <GitFork className="w-4 h-4 text-emerald-400" />
+              <span className="text-stone-400 font-normal">الفرع:</span>
+              <span className="truncate max-w-[140px] sm:max-w-[200px] text-white font-bold">
+                {selectedBranch !== 'all' ? `فرع: ${currentDisplayName}` : 'كل الفروع والأنساب'}
+              </span>
+              <ChevronDown className={`w-3.5 h-3.5 text-stone-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+            </>
+          )}
         </button>
 
         {/* Quick Clear Button if branch is selected */}
@@ -136,7 +162,7 @@ export const BranchSearchSelector: React.FC<BranchSearchSelectorProps> = ({
           <button
             type="button"
             onClick={() => handleSelect('all')}
-            className="p-1 rounded-lg bg-stone-800/80 hover:bg-stone-700 text-stone-300 hover:text-white transition"
+            className="p-1.5 rounded-lg bg-stone-800/90 hover:bg-stone-700 text-stone-300 hover:text-white transition shrink-0 border border-stone-600/40"
             title="إلغاء التحديد وعرض كل الفروع"
           >
             <X className="w-3.5 h-3.5" />
@@ -146,7 +172,9 @@ export const BranchSearchSelector: React.FC<BranchSearchSelectorProps> = ({
 
       {/* Popover / Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 sm:left-auto top-full mt-2 w-[92vw] sm:w-[420px] max-w-[95vw] bg-[#031d16] border border-[#0d5945] rounded-2xl shadow-2xl z-50 overflow-hidden flex flex-col text-stone-100 animate-in fade-in zoom-in-95 duration-150">
+        <div className={`absolute top-full mt-2 w-[92vw] sm:w-[420px] max-w-[95vw] bg-[#031d16] border border-[#0d5945] rounded-2xl shadow-2xl z-50 overflow-hidden flex flex-col text-stone-100 animate-in fade-in zoom-in-95 duration-150 ${
+          mobileMode ? 'left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-auto sm:right-0' : 'right-0 sm:left-auto'
+        }`}>
           {/* Header */}
           <div className="p-3 border-b border-[#0b4838] bg-[#021812] flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -215,7 +243,7 @@ export const BranchSearchSelector: React.FC<BranchSearchSelectorProps> = ({
                 <Layers className="w-4 h-4 text-emerald-400" />
                 <div>
                   <div className="text-xs font-bold">كل الفروع والأنساب (المشجر كاملاً)</div>
-                  <div className="text-[10px] text-stone-400">عرض وثيقة شجرة شارح البحر بالكامل وتتابع الأجيال</div>
+                  <div className="text-[10px] text-stone-400">عرض كتاب شجرة شارح البحر بالكامل وتتابع الأجيال</div>
                 </div>
               </div>
               {selectedBranch === 'all' && <Check className="w-4 h-4 text-emerald-400" />}

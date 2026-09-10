@@ -68,6 +68,8 @@ export const CodedHierarchyView: React.FC<CodedHierarchyViewProps> = ({
       .map((block) => {
         // Filter children
         const matchedChildren = block.children.filter((child) => {
+          if (!child.name || child.name.trim() === '' || child.name.trim() === 'بن' || /^بن\s*$/.test(child.name.trim())) return false;
+
           // Status filters
           if (filterType === 'martyrs' && !child.isMartyr) return false;
           if (filterType === 'no_offspring' && !child.noOffspring) return false;
@@ -165,18 +167,13 @@ export const CodedHierarchyView: React.FC<CodedHierarchyViewProps> = ({
     <div className="max-w-4xl mx-auto px-2 sm:px-4 py-4 space-y-4 font-cairo">
       {/* Top Introductory Document Box */}
       <div className="bg-[#fcfdfd] border border-emerald-800/20 rounded-2xl p-4 sm:p-6 shadow-sm text-stone-800 space-y-3">
-        <div className="text-center space-y-1.5 border-b border-stone-200/80 pb-3">
+        <div className="text-center space-y-1.5">
           <h2 className="text-base sm:text-lg font-bold font-scheherazade text-stone-900">
-            وثيقة أعقاب شارح البحر (آل الجنيد وآل البركاني وآل السروري)
+            كتاب آل الجنيد في تعز - من أعقاب شارح البحر الحضرمي
           </h2>
           <p className="text-xs sm:text-sm text-emerald-900 font-medium">
             المشجر الهرمي التتابعي المفتوح • تسلسل الأجيال والأعقاب بالترتيب الأصلي
           </p>
-        </div>
-
-        <div className="bg-[#f4f9f6] p-3.5 rounded-xl border border-emerald-200/60 text-xs text-stone-700 leading-relaxed font-scheherazade sm:text-sm">
-          <span className="font-bold text-emerald-950 block mb-1">عمود النسب الشريف المتصل:</span>
-          أحمد بن عبد الله الحضرمي بن محمد بن محمد بن علي بن القاسم بن أحمد الشيخ البركاني بن شارح البحر الشيخ سعيد بن أبي الأسرار علي بن إبراهيم السروري بن علي بن محمد بن الحسن بن المحسن بن يحيى الصوفي بن جعفر الزكي بن الإمام الهادي علي النقي بن الإمام الجواد محمد التقي بن الإمام علي الرضا بن الإمام موسى الكاظم بن الإمام جعفر الصادق بن الإمام محمد الباقر بن الإمام علي زين العابدين بن سيد شباب أهل الجنة وسبط رسول الله وسيد الشهداء الإمام الحسين بن الإمام علي بن أبي طالب سلام الله عليهم أجمعين
         </div>
       </div>
 
@@ -308,11 +305,8 @@ export const CodedHierarchyView: React.FC<CodedHierarchyViewProps> = ({
 
           <div className="space-y-2">
             <h1 className="text-xl sm:text-3xl font-bold text-emerald-950 leading-snug">
-              من أعقاب شارح البحر: أحمد بن عبد الله الحضرمي
+              كتاب آل الجنيد في تعز - من أعقاب شارح البحر الحضرمي
             </h1>
-            <h2 className="text-lg sm:text-2xl font-bold text-amber-900">
-              آل الجنيد في تعز
-            </h2>
           </div>
 
           <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-amber-600 to-transparent mx-auto my-3" />
@@ -328,7 +322,7 @@ export const CodedHierarchyView: React.FC<CodedHierarchyViewProps> = ({
 
           <div className="pt-2">
             <span className="inline-block px-3.5 py-1 rounded-full bg-emerald-100/70 border border-emerald-300 text-emerald-900 text-xs font-semibold font-cairo">
-              وثيقة تاريخية محققة • مشجر تتابعي متصل بالأكواد والأجيال
+              كتاب تاريخي محقق • مشجر تتابعي متصل بالأكواد والأجيال
             </span>
           </div>
         </div>
@@ -497,7 +491,7 @@ export const CodedHierarchyView: React.FC<CodedHierarchyViewProps> = ({
               {isMainBranchStart && (
                 <div className="bg-[#063024] text-white rounded-2xl p-3.5 sm:p-4 shadow-md border border-[#0e5c46] flex items-center justify-between gap-3 mt-6 first:mt-0">
                   <span className="text-[11px] sm:text-xs px-3 py-1 rounded-full bg-[#094735] text-emerald-200 border border-emerald-600/40 font-medium">
-                    وثيقة أعقاب شارح البحر
+                    كتاب آل الجنيد في تعز - من أعقاب شارح البحر الحضرمي
                   </span>
 
                   <h3 className="text-sm sm:text-base font-bold font-scheherazade text-amber-200 text-center flex-1">

@@ -2,24 +2,24 @@
 
 @layer base {
   body {
-    font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+    font-family: 'Cairo', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Kufi Arabic', 'Noto Sans Arabic', Tahoma, Arial, sans-serif;
   }
 }
 
 .font-amiri {
-  font-family: 'Amiri', serif;
+  font-family: 'Amiri', 'Traditional Arabic', 'Scheherazade New', 'Scheherazade', serif;
 }
 
 .font-scheherazade {
-  font-family: 'Scheherazade New', serif;
+  font-family: 'Scheherazade New', 'Scheherazade', 'Amiri', serif;
 }
 
 .font-reem {
-  font-family: 'Reem Kufi', sans-serif;
+  font-family: 'Reem Kufi', 'Cairo', 'Noto Kufi Arabic', sans-serif;
 }
 
 .font-cairo {
-  font-family: 'Cairo', sans-serif;
+  font-family: 'Cairo', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Kufi Arabic', sans-serif;
 }
 
 /* Custom scrollbars */
