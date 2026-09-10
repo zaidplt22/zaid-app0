@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
-    "build": "vite build && cp dist/index.html public/index.html && cp dist/index.html public/Sharh-AlBahr-Offline-App.html && cp dist/index.html public/Sharh-AlBahr-Offline-Book.html && cp dist/index.html public/genealogy-app.html && cp dist/index.html public/Sharh-AlBahr-Genealogy.html && cp dist/index.html Sharh-AlBahr-SingleFile-App.html && python3 scripts/create_export_packages.py",
+    "build": "vite build && npx tsx scripts/create_webtoapp_bundle.ts",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit"

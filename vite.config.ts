@@ -22,9 +22,7 @@ function syncManuscriptsPlugin(): Plugin {
               const images = parsed.images || [];
 
               const imagesDir = path.resolve(__dirname, 'public/images');
-              const webtoappImagesDir = path.resolve(__dirname, 'webtoapp_bundle/images');
               if (!fs.existsSync(imagesDir)) fs.mkdirSync(imagesDir, { recursive: true });
-              if (!fs.existsSync(webtoappImagesDir)) fs.mkdirSync(webtoappImagesDir, { recursive: true });
 
               images.forEach((img: any, idx: number) => {
                 if (img.imageUrl && img.imageUrl.includes(';base64,')) {
@@ -32,7 +30,6 @@ function syncManuscriptsPlugin(): Plugin {
                   const ext = img.imageUrl.includes('image/png') ? 'png' : 'jpg';
                   const fileName = img.fileName || `manuscript-${String(idx + 1).padStart(2, '0')}.${ext}`;
                   fs.writeFileSync(path.join(imagesDir, fileName), base64Data, 'base64');
-                  fs.writeFileSync(path.join(webtoappImagesDir, fileName), base64Data, 'base64');
                 }
               });
 
@@ -44,7 +41,7 @@ function syncManuscriptsPlugin(): Plugin {
               );
 
               // Re-run package script
-              exec('python3 scripts/create_export_packages.py', () => {
+              exec('npx tsx scripts/create_webtoapp_bundle.ts', () => {
                 res.setHeader('Content-Type', 'application/json');
                 res.end(JSON.stringify({ success: true, count: images.length }));
               });

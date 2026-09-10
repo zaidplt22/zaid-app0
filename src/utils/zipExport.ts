@@ -39,34 +39,12 @@ export async function exportCompleteProjectWithImagesZip(
     // Continue
   }
 
-  if (!indexHtmlContent) {
-    try {
-      const res = await fetch('/genealogy-app.html');
-      if (res.ok) {
-        indexHtmlContent = await res.text();
-      }
-    } catch {
-      // Fallback
-    }
-  }
-
-  if (!indexHtmlContent) {
-    try {
-      const res = await fetch('/Sharh-AlBahr-Offline-App.html');
-      if (res.ok) {
-        indexHtmlContent = await res.text();
-      }
-    } catch {
-      // Fallback
-    }
-  }
-
   if (!indexHtmlContent && typeof document !== 'undefined') {
     indexHtmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
   }
 
+  // Add the single production index.html
   zip.file('index.html', indexHtmlContent);
-  zip.file('genealogy-app.html', indexHtmlContent);
 
   // 2. Fetch or generate app_data.json
   onProgress?.('جاري تضمين قاعدة بيانات الأسماء والأرقام (app_data.json)...');

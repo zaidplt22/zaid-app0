@@ -494,13 +494,13 @@ export const ManuscriptsGalleryView: React.FC = () => {
 
             {/* Direct Link to Server ZIP */}
             <a
-              href="/Sharh-AlBahr-WebToApp-Ready.zip"
-              download="Sharh-AlBahr-WebToApp-Ready.zip"
+              href="/webtoapp_bundle.zip"
+              download="webtoapp_bundle.zip"
               className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-stone-900 hover:bg-stone-800 text-amber-300 font-bold text-xs sm:text-sm shadow-md transition cursor-pointer border border-amber-500/40"
-              title="تنزيل مباشر لحزمة WebToApp الجاهزة"
+              title="تنزيل مباشر لحزمة webtoapp_bundle.zip الجاهزة"
             >
               <Download className="w-4 h-4 text-amber-400" />
-              <span>رابط مباشر (ZIP)</span>
+              <span>رابط مباشر (webtoapp_bundle.zip)</span>
             </a>
 
             <div className="text-xs text-amber-300/90 mr-auto font-bold bg-amber-900/40 px-3.5 py-2 rounded-lg border border-amber-700/50">

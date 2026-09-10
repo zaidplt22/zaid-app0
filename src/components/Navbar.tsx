@@ -34,7 +34,7 @@ import { TreeStats } from '../types';
 import { OfflineAppModal } from './OfflineAppModal';
 import { BranchSearchSelector } from './BranchSearchSelector';
 import { extractBranchHierarchy } from '../utils/branchLineageHelper';
-import { exportBranchLineageToPdf, exportBranchTreeDiagramToPdf } from '../utils/exportUtils';
+import { exportBranchLineageToPdf, exportBranchTreeDiagramToPdf, exportLineageToDoc, exportLineageToTxt } from '../utils/exportUtils';
 import { useAuthRole } from '../utils/authRole';
 
 export type ActiveTabType = 
@@ -100,17 +100,17 @@ export const Navbar: React.FC<NavbarProps> = ({
     setInternalDrawerOpen(open);
   };
 
-  const handleDownloadApk = (e: React.MouseEvent) => {
-    // 1. Trigger direct download for geneology-app.apk
+  const handleDownloadPackage = (e: React.MouseEvent) => {
+    e.preventDefault();
+    // 1. Trigger direct download for the clean complete webtoapp_bundle ZIP export
     const link = document.createElement('a');
-    link.href = '/geneology-app.apk';
-    link.download = 'geneology-app.apk';
-    link.setAttribute('target', '_blank');
+    link.href = '/webtoapp_bundle.zip';
+    link.download = 'webtoapp_bundle.zip';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
 
-    // 2. Open offline app options and installation modal
+    // 2. Open offline app options modal
     setShowOfflineModal(true);
   };
 
@@ -257,7 +257,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   id="direct-download-singlefile-html"
                   onClick={async () => {
                     try {
-                      const res = await fetch('/Sharh-AlBahr-Offline-App.html');
+                      const res = await fetch('/index.html');
                       const blob = await res.blob();
                       const blobUrl = URL.createObjectURL(blob);
                       const a = document.createElement('a');
@@ -268,7 +268,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                       document.body.removeChild(a);
                       setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
                     } catch {
-                      window.open('/Sharh-AlBahr-Offline-App.html', '_blank');
+                      window.open('/index.html', '_blank');
                     }
                   }}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-stone-950 text-xs font-black transition shadow-md border border-amber-300 cursor-pointer"
@@ -279,13 +279,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </button>
 
                 <button
-                  onClick={handleDownloadApk}
-                  id="download-android-apk-btn"
+                  onClick={handleDownloadPackage}
+                  id="download-clean-zip-btn"
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-sm border border-emerald-400/50 cursor-pointer"
-                  title="تحميل تطبيق الأندرويد أو نسخة الأوفلاين الشاملة"
+                  title="تحميل حزمة المشروع الكاملة مع كافة الوثائق الـ 74 (ZIP)"
                 >
-                  <Smartphone className="w-3.5 h-3.5 text-emerald-100" />
-                  <span className="whitespace-nowrap">تحميل التطبيق (Android APK)</span>
+                  <Download className="w-3.5 h-3.5 text-emerald-100" />
+                  <span className="whitespace-nowrap">تحميل الحزمة الشاملة (ZIP)</span>
                 </button>
 
                 <button
@@ -299,7 +299,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
                 <button
                   onClick={() => {
-                    import('../utils/exportUtils').then(m => m.exportLineageToDoc());
+                    exportLineageToDoc();
                   }}
                   className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#3b82f6] hover:bg-[#2563eb] text-white text-xs font-bold transition shadow-xs cursor-pointer"
                   title="تصدير بصيغة Word (Docx/Doc)"
@@ -310,7 +310,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
                 <button
                   onClick={() => {
-                    import('../utils/exportUtils').then(m => m.exportLineageToTxt());
+                    exportLineageToTxt();
                   }}
                   className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#10b981] hover:bg-[#059669] text-white text-xs font-bold transition shadow-xs cursor-pointer"
                   title="تصدير نص كامل TXT"
@@ -1097,7 +1097,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         onClick={async () => {
                           setDrawerOpen(false);
                           try {
-                            const res = await fetch('/Sharh-AlBahr-Offline-App.html');
+                            const res = await fetch('/index.html');
                             const blob = await res.blob();
                             const blobUrl = URL.createObjectURL(blob);
                             const a = document.createElement('a');
@@ -1108,7 +1108,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                             document.body.removeChild(a);
                             setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
                           } catch {
-                            window.open('/Sharh-AlBahr-Offline-App.html', '_blank');
+                            window.open('/index.html', '_blank');
                           }
                         }}
                         className="w-full flex items-center justify-between p-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-stone-950 font-bold transition shadow-sm cursor-pointer"
@@ -1123,13 +1123,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                         type="button"
                         onClick={(e) => {
                           setDrawerOpen(false);
-                          handleDownloadApk(e);
+                          handleDownloadPackage(e);
                         }}
                         className="w-full flex items-center justify-between p-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition shadow-sm cursor-pointer"
                       >
                         <div className="flex items-center gap-2">
-                          <Smartphone className="w-4 h-4 text-emerald-100" />
-                          <span>تحميل التطبيق (Android APK)</span>
+                          <Download className="w-4 h-4 text-emerald-100" />
+                          <span>تحميل حزمة المشروع الكاملة (ZIP)</span>
                         </div>
                       </button>
 
@@ -1151,7 +1151,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         type="button"
                         onClick={() => {
                           setDrawerOpen(false);
-                          import('../utils/exportUtils').then(m => m.exportLineageToDoc());
+                          exportLineageToDoc();
                         }}
                         className="w-full flex items-center justify-between p-2.5 rounded-xl bg-[#3b82f6] hover:bg-[#2563eb] text-white font-bold transition shadow-xs cursor-pointer"
                       >
@@ -1165,7 +1165,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         type="button"
                         onClick={() => {
                           setDrawerOpen(false);
-                          import('../utils/exportUtils').then(m => m.exportLineageToTxt());
+                          exportLineageToTxt();
                         }}
                         className="w-full flex items-center justify-between p-2.5 rounded-xl bg-[#10b981] hover:bg-[#059669] text-white font-bold transition shadow-xs cursor-pointer"
                       >
