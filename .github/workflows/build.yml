@@ -37,9 +37,25 @@ jobs:
       - name: Initialize Android platform with Capacitor
         run: |
           bun add @capacitor/core @capacitor/cli @capacitor/android
-          npx cap init App zaid.app.family --web-dir dist
+          # تم تحديد اسم التطبيق هنا
+          npx cap init "كتاب آل الجنيد" zaid.app.family --web-dir dist
           npx cap add android
           npx cap copy android
+
+      # --- تم إضافة هذا الجزء لنسخ الأيقونة من مجلد public ---
+      - name: Copy App Icon from public/
+        run: |
+          # نسخ الأيقونة الرئيسية وتوزيعها على مجلدات الأيقونات
+          # نستخدم -f للفرض، و -v لعرض الملفات المنسوخة في السجل
+          cp -fv public/icon-512.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+          cp -fv public/icon-512.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+          cp -fv public/icon-512.png android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+          cp -fv public/icon-512.png android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+          cp -fv public/icon-512.png android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+          cp -fv public/icon-512.png android/app/src/main/res/mipmap-ldpi/ic_launcher.png
+          # عمل نسخة احتياطية لأيقونة الإشعارات (اختياري)
+          cp -fv public/icon-512.png android/app/src/main/res/drawable/ic_stat_name.png || echo "drawable folder not found, skipping"
+      # --- نهاية الجزء المضاف ---
 
       - name: Build APK with Gradle
         run: |
