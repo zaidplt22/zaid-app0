@@ -1,9 +1,12 @@
 {
   "id": "/",
-  "short_name": "آل الجنيد",
+  "short_name": "كتاب آل الجنيد",
   "name": "كتاب آل الجنيد في تعز",
   "description": "المشجر الهرمي التتابعي لأعقاب شارح البحر الحضرمي",
   "categories": ["books", "lifestyle", "education"],
+  "iarc_rating_id": "e84b007d-1111-2222-3333-444455556666",
+  "prefer_related_applications": false,
+  "display_override": ["standalone", "browser"],
   "icons": [
     {
       "src": "/icon-512.png",
