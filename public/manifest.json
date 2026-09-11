@@ -4,7 +4,7 @@
   "description": "المشجر الهرمي التتابعي لأعقاب شارح البحر الحضرمي",
   "icons": [
     {
-      "src": "/public/icon-512.png",
+      "src": "/icon-512.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
