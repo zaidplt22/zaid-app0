@@ -1,4 +1,4 @@
-name: Build Web App to Android APK
+name: Build Release AAB with AdMob
 
 on:
   push:
@@ -36,10 +36,15 @@ jobs:
 
       - name: Initialize Android platform with Capacitor
         run: |
-          bun add @capacitor/core @capacitor/cli @capacitor/android
+          bun add @capacitor/core @capacitor/cli @capacitor/android @capacitor-community/admob
           npx cap init "كتاب آل الجنيد" zaid.app.family --web-dir dist
           npx cap add android
           npx cap copy android
+
+      - name: Inject AdMob App ID into AndroidManifest
+        run: |
+          MANIFEST_PATH="android/app/src/main/AndroidManifest.xml"
+          sed -i '/<\/application>/i \    <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-5626894045921428~1826738433"/>' $MANIFEST_PATH
 
       - name: Copy App Icon from public/
         run: |
@@ -55,14 +60,14 @@ jobs:
           cp -fv public/icon-512.png android/app/src/main/res/mipmap-hdpi/ic_launcher.png
           cp -fv public/icon-512.png android/app/src/main/res/mipmap-mdpi/ic_launcher.png
 
-      - name: Build APK with Gradle
+      - name: Build Release AAB with Gradle
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew bundleRelease
 
-      - name: Upload APK Artifact
+      - name: Upload Release AAB Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: app-release-aab
+          path: android/app/build/outputs/bundle/release/app-release.aab
