@@ -17,8 +17,9 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Install Dependencies with Bun
+      - name: Install Dependencies & AdMob
         run: |
+          bun add @capacitor/core @capacitor/cli @capacitor/android @capacitor-community/admob
           bun install
 
       - name: Build Web App
@@ -36,7 +37,6 @@ jobs:
 
       - name: Initialize Android platform with Capacitor
         run: |
-          bun add @capacitor/core @capacitor/cli @capacitor/android @capacitor-community/admob
           npx cap init "كتاب آل الجنيد" zaid.app.family --web-dir dist
           npx cap add android
           npx cap copy android
