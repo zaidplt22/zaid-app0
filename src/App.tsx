@@ -1,3 +1,4 @@
+import { AdMob, BannerAdSize, BannerAdPosition } from '@capacitor-community/admob';
 import React, { useState, useMemo, useEffect } from 'react';
 import { PersonNode, TreeStats, TreeDocumentation } from './types';
 import { sharhAlBahrTreeData } from './data/sharhAlBahrTreeData';
@@ -25,6 +26,19 @@ import { useAuthRole } from './utils/authRole';
 
 export default function App() {
   const { isAdmin } = useAuthRole();
+
+  // Initialize AdMob Banner Ads safely upon app launch
+  useEffect(() => {
+    AdMob.initialize().then(() => {
+      AdMob.showBanner({
+        adId: 'ca-app-pub-5626894045921428/6463504942',
+        adSize: BannerAdSize.BANNER,
+        position: BannerAdPosition.BOTTOM_CENTER,
+        margin: 0,
+        isTesting: false
+      }).catch((err) => console.log('AdMob Banner Show Error:', err));
+    }).catch((err) => console.log('AdMob Init Error:', err));
+  }, []);
 
   // Tree state initialized with verified Sharh Al-Bahr lineage
   const [treeData, setTreeData] = useState<PersonNode>(() =>
