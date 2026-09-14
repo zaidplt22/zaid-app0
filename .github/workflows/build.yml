@@ -32,9 +32,6 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
       - name: Initialize Android platform with Capacitor
         run: |
           npx cap init "كتاب آل الجنيد" zaid.app.family --web-dir dist
