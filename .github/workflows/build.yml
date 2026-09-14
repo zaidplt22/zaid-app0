@@ -1,4 +1,4 @@
-name: Build Signed Release APK with AdMob
+name: Build Release Signed APK with AdMob
 
 on:
   push:
@@ -57,14 +57,22 @@ jobs:
           cp -fv public/icon-512.png android/app/src/main/res/mipmap-hdpi/ic_launcher.png
           cp -fv public/icon-512.png android/app/src/main/res/mipmap-mdpi/ic_launcher.png
 
-      - name: Build Signed APK with Gradle
+      - name: Generate Release Keystore
+        run: |
+          keytool -genkey -v -keystore android/app/release.keystore -alias release -keyalg RSA -keysize 2048 -validity 10000 -storepass 123456 -keypass 123456 -dname "CN=Zaid, OU=App, O=Family, L=Sanaa, C=YE"
+
+      - name: Build Release APK
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleRelease
 
-      - name: Upload Installable APK
+      - name: Sign Release APK
+        run: |
+          ${ANDROID_HOME}/build-tools/34.0.0/apksigner sign --ks android/app/release.keystore --ks-pass pass:123456 --out android/app/build/outputs/apk/release/app-release-signed.apk android/app/build/outputs/apk/release/app-release-unsigned.apk
+
+      - name: Upload Store Ready Signed APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug-signed-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: app-release-signed-apk
+          path: android/app/build/outputs/apk/release/app-release-signed.apk
