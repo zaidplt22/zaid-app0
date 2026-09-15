@@ -1,4 +1,4 @@
-Name: Build Release Signed APK with Start.io
+name: Build Release Signed APK with Start.io
 
 on:
   push:
