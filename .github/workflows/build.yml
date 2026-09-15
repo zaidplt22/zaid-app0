@@ -1,4 +1,4 @@
-name: Build WebView APK from Vercel
+name: Build Full Offline Signed APK with Start.io
 
 on:
   push:
@@ -17,15 +17,20 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Install Capacitor
+      - name: Install Dependencies
         run: |
           bun add @capacitor/core @capacitor/cli @capacitor/android
           bun install
 
-      - name: Create Empty Public Dir for Capacitor
+      - name: Inject Start.io Ads & Prepare Dist
         run: |
-          mkdir -p public_empty
-          echo '<html><head><meta http-equiv="refresh" content="0;url=https://zaid-app0.vercel.app/"></head><body></body></html>' > public_empty/index.html
+          mkdir -p dist
+          cp -rf public/* dist/ || true
+          cp -f public/index.html dist/index.html
+          
+          # Inject Start.io script inside head tag automatically
+          STARTIO_SCRIPT='<script type="text/javascript" src="https://www.startappservice.com/wp/js/sdk/v1/startapp.js"></script><script>window.addEventListener("load", function() { try { if (window.StartApp) { window.StartApp.init("208760526"); window.StartApp.showBanner(); } } catch(e) {} });</script>'
+          sed -i "s|</head>|${STARTIO_SCRIPT}</head>|g" dist/index.html
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
@@ -35,20 +40,8 @@ jobs:
 
       - name: Initialize Android platform with Capacitor
         run: |
-          npx cap init "كتاب آل الجنيد" zaid.app.family --web-dir public_empty
+          npx cap init "كتاب آل الجنيد" zaid.app.family --web-dir dist
           npx cap add android
-
-      - name: Configure Capacitor to Server URL
-        run: |
-          echo '{
-            "appId": "zaid.app.family",
-            "appName": "كتاب آل الجنيد",
-            "webDir": "public_empty",
-            "server": {
-              "url": "https://zaid-app0.vercel.app/",
-              "cleartext": true
-            }
-          }' > capacitor.config.json
           npx cap copy android
 
       - name: Copy App Icon
