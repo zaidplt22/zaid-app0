@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo, useEffect } from 'react';
 import { PersonNode, TreeStats, TreeDocumentation } from './types';
 import { sharhAlBahrTreeData } from './data/sharhAlBahrTreeData';
@@ -29,13 +28,18 @@ export default function App() {
 
 // Initialize Start.io Banner Ads safely upon app launch
 useEffect(() => {
-  if ((window as any).StartApp) {
-    (window as any).StartApp.init("208760526");
-    (window as any).StartApp.showBanner();
+  try {
+    const startApp = (window as any).StartApp;
+    if (startApp && typeof startApp.init === 'function') {
+      startApp.init("208760526");
+      if (typeof startApp.showBanner === 'function') {
+        startApp.showBanner();
+      }
+    }
+  } catch (e) {
+    console.log("StartApp loading error:", e);
   }
 }, []);
-
-  
 
   // Tree state initialized with verified Sharh Al-Bahr lineage
   const [treeData, setTreeData] = useState<PersonNode>(() =>
