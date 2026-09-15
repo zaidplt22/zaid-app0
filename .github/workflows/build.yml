@@ -1,4 +1,4 @@
-name: Build Release Signed APK with AdMob
+Name: Build Release Signed APK with Start.io
 
 on:
   push:
@@ -17,9 +17,9 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Install Dependencies & AdMob
+      - name: Install Dependencies
         run: |
-          bun add @capacitor/core @capacitor/cli @capacitor/android @capacitor-community/admob
+          bun add @capacitor/core @capacitor/cli @capacitor/android
           bun install
 
       - name: Build Web App
@@ -37,11 +37,6 @@ jobs:
           npx cap init "كتاب آل الجنيد" zaid.app.family --web-dir dist
           npx cap add android
           npx cap copy android
-
-      - name: Inject AdMob App ID into AndroidManifest
-        run: |
-          MANIFEST_PATH="android/app/src/main/AndroidManifest.xml"
-          sed -i '/<\/application>/i \    <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-5626894045921428~1826738433"/>' $MANIFEST_PATH
 
       - name: Copy App Icon from public/
         run: |
