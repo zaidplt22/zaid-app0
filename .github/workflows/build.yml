@@ -22,13 +22,13 @@ jobs:
           bun add @capacitor/core @capacitor/cli @capacitor/android
           bun install
 
-      - name: Inject Start.io Ads & Prepare Dist
+      - name: Prepare Dist and Inject Start.io
         run: |
           mkdir -p dist
           cp -rf public/* dist/ || true
           cp -f public/index.html dist/index.html
           
-          # Inject Start.io script inside head tag automatically
+          # Inject Start.io script safely inside head tag
           STARTIO_SCRIPT='<script type="text/javascript" src="https://www.startappservice.com/wp/js/sdk/v1/startapp.js"></script><script>window.addEventListener("load", function() { try { if (window.StartApp) { window.StartApp.init("208760526"); window.StartApp.showBanner(); } } catch(e) {} });</script>'
           sed -i "s|</head>|${STARTIO_SCRIPT}</head>|g" dist/index.html
 
