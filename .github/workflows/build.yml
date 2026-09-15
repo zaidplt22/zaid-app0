@@ -12,26 +12,31 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          distribution: 'temurin'
-          java-version: '21'
+          bun-version: latest
 
-      - name: Install Dependencies
+      - name: Install Capacitor Dependencies
         run: |
-          npm install @capacitor/core @capacitor/cli @capacitor/android
+          bun add @capacitor/core @capacitor/cli @capacitor/android
 
       - name: Inject Start.io Script Safely
         run: |
           echo '<script type="text/javascript" src="https://www.startappservice.com/wp/js/sdk/v1/startapp.js"></script>' >> public/index.html
           echo '<script>window.addEventListener("load", function() { try { if (window.StartApp) { window.StartApp.init("208760526"); window.StartApp.showBanner(); } } catch(e) {} });</script>' >> public/index.html
 
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
       - name: Initialize Android platform with Capacitor
         run: |
-          npx cap init "كتاب آل الجنيد" zaid.app.family --web-dir public
-          npx cap add android
-          npx cap copy android
+          bunx cap init "كتاب آل الجنيد" zaid.app.family --web-dir public
+          bunx cap add android
+          bunx cap copy android
 
       - name: Copy App Icon from public/
         run: |
