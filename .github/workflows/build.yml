@@ -1,4 +1,4 @@
-name: Build Signed Release APK with Start.io
+name: Build WebView APK from Vercel
 
 on:
   push:
@@ -17,15 +17,15 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Install Capacitor Dependencies
+      - name: Install Capacitor
         run: |
           bun add @capacitor/core @capacitor/cli @capacitor/android
           bun install
 
-      - name: Inject Start.io SDK
+      - name: Create Empty Public Dir for Capacitor
         run: |
-          echo '<script type="text/javascript" src="https://www.startappservice.com/wp/js/sdk/v1/startapp.js"></script>' >> public/index.html
-          echo '<script>window.addEventListener("load", function() { try { if (window.StartApp) { window.StartApp.init("208760526"); window.StartApp.showBanner(); } } catch(e) {} });</script>' >> public/index.html
+          mkdir -p public_empty
+          echo '<html><head><meta http-equiv="refresh" content="0;url=https://zaid-app0.vercel.app/"></head><body></body></html>' > public_empty/index.html
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
@@ -35,11 +35,23 @@ jobs:
 
       - name: Initialize Android platform with Capacitor
         run: |
-          npx cap init "كتاب آل الجنيد" zaid.app.family --web-dir public
+          npx cap init "كتاب آل الجنيد" zaid.app.family --web-dir public_empty
           npx cap add android
+
+      - name: Configure Capacitor to Server URL
+        run: |
+          echo '{
+            "appId": "zaid.app.family",
+            "appName": "كتاب آل الجنيد",
+            "webDir": "public_empty",
+            "server": {
+              "url": "https://zaid-app0.vercel.app/",
+              "cleartext": true
+            }
+          }' > capacitor.config.json
           npx cap copy android
 
-      - name: Copy App Icon from public/
+      - name: Copy App Icon
         run: |
           mkdir -p android/app/src/main/res/mipmap-xxxhdpi
           mkdir -p android/app/src/main/res/mipmap-xxhdpi
@@ -47,11 +59,11 @@ jobs:
           mkdir -p android/app/src/main/res/mipmap-hdpi
           mkdir -p android/app/src/main/res/mipmap-mdpi
           
-          cp -fv public/icon-512.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-          cp -fv public/icon-512.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
-          cp -fv public/icon-512.png android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
-          cp -fv public/icon-512.png android/app/src/main/res/mipmap-hdpi/ic_launcher.png
-          cp -fv public/icon-512.png android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+          cp -fv public/icon-512.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png || true
+          cp -fv public/icon-512.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png || true
+          cp -fv public/icon-512.png android/app/src/main/res/mipmap-xhdpi/ic_launcher.png || true
+          cp -fv public/icon-512.png android/app/src/main/res/mipmap-hdpi/ic_launcher.png || true
+          cp -fv public/icon-512.png android/app/src/main/res/mipmap-mdpi/ic_launcher.png || true
 
       - name: Build Signed APK with Gradle
         run: |
