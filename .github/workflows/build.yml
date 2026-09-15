@@ -18,9 +18,9 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Install Capacitor CLI
+      - name: Install Dependencies
         run: |
-          npm install -g @capacitor/cli @capacitor/core @capacitor/android
+          npm install @capacitor/core @capacitor/cli @capacitor/android
 
       - name: Inject Start.io Script Safely
         run: |
