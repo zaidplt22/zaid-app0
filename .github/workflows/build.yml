@@ -1,4 +1,4 @@
-name: Build Release Signed APK with Start.io
+Name: Build Release Signed APK with Start.io
 
 on:
   push:
@@ -12,26 +12,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Bun
-        uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: latest
-
-      - name: Install Dependencies
-        run: |
-          bun add @capacitor/core @capacitor/cli @capacitor/android
-          bun install
-
-      - name: Inject Start.io Ads into public/index.html
-        run: |
-          sed -i '/<\/head>/i \    <script type="text/javascript" src="https://www.startappservice.com/wp/js/sdk/v1/startapp.js"></script>' public/index.html
-          sed -i '/<\/body>/i \    <script>window.addEventListener("load", function() { try { if (window.StartApp) { window.StartApp.init("208760526"); window.StartApp.showBanner(); } } catch(e) {} });</script>' public/index.html
-
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
+
+      - name: Install Capacitor CLI
+        run: |
+          npm install -g @capacitor/cli @capacitor/core @capacitor/android
+
+      - name: Inject Start.io Script Safely
+        run: |
+          echo '<script type="text/javascript" src="https://www.startappservice.com/wp/js/sdk/v1/startapp.js"></script>' >> public/index.html
+          echo '<script>window.addEventListener("load", function() { try { if (window.StartApp) { window.StartApp.init("208760526"); window.StartApp.showBanner(); } } catch(e) {} });</script>' >> public/index.html
 
       - name: Initialize Android platform with Capacitor
         run: |
