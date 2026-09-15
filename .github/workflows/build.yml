@@ -1,4 +1,4 @@
-name: Build Release Signed APK with Start.io
+Name: Build Release Signed APK with Start.io
 
 on:
   push:
@@ -22,9 +22,10 @@ jobs:
           bun add @capacitor/core @capacitor/cli @capacitor/android
           bun install
 
-      - name: Build Web App
+      - name: Inject Start.io Ads into public/index.html
         run: |
-          bun run build
+          sed -i '/<\/head>/i \    <script type="text/javascript" src="https://www.startappservice.com/wp/js/sdk/v1/startapp.js"></script>' public/index.html
+          sed -i '/<\/body>/i \    <script>window.addEventListener("load", function() { try { if (window.StartApp) { window.StartApp.init("208760526"); window.StartApp.showBanner(); } } catch(e) {} });</script>' public/index.html
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
@@ -34,7 +35,7 @@ jobs:
 
       - name: Initialize Android platform with Capacitor
         run: |
-          npx cap init "كتاب آل الجنيد" zaid.app.family --web-dir dist
+          npx cap init "كتاب آل الجنيد" zaid.app.family --web-dir public
           npx cap add android
           npx cap copy android
 
