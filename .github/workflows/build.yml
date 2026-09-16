@@ -22,15 +22,21 @@ jobs:
           bun add @capacitor/core @capacitor/cli @capacitor/android
           bun install
 
-      - name: Prepare Web Directory with Start.io Script
+      - name: Prepare Full Screen Iframe Web Directory
         run: |
-          mkdir -p public_empty
-          cat << 'EOF' > public_empty/index.html
+          mkdir -p dist
+          cat << 'EOF' > dist/index.html
           <!DOCTYPE html>
-          <html>
+          <html lang="ar" dir="rtl">
           <head>
             <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+            <title>كتاب آل الجنيد</title>
+            <style>
+              * { margin: 0; padding: 0; box-sizing: border-box; }
+              html, body { width: 100%; height: 100%; overflow: hidden; background-color: #1c1917; }
+              #app-frame { width: 100%; height: 100%; border: none; display: block; }
+            </style>
             <script type="text/javascript" src="https://www.startappservice.com/wp/js/sdk/v1/startapp.js"></script>
             <script>
               window.addEventListener("load", function() {
@@ -44,9 +50,10 @@ jobs:
                 }
               });
             </script>
-            <meta http-equiv="refresh" content="0;url=https://zaid-app0.vercel.app/">
           </head>
-          <body></body>
+          <body>
+            <iframe id="app-frame" src="https://zaid-app0.vercel.app/"></iframe>
+          </body>
           </html>
           EOF
 
@@ -58,20 +65,21 @@ jobs:
 
       - name: Initialize Android platform with Capacitor
         run: |
-          npx cap init "كتاب آل الجنيد" zaid.app.family --web-dir public_empty
+          npx cap init "كتاب آل الجنيد" zaid.app.family --web-dir dist
           npx cap add android
 
-      - name: Configure Capacitor Server URL
+      - name: Configure Capacitor Settings
         run: |
-          echo '{
+          cat << 'EOF' > capacitor.config.json
+          {
             "appId": "zaid.app.family",
             "appName": "كتاب آل الجنيد",
-            "webDir": "public_empty",
-            "server": {
-              "url": "https://zaid-app0.vercel.app/",
-              "cleartext": true
+            "webDir": "dist",
+            "android": {
+              "allowMixedContent": true
             }
-          }' > capacitor.config.json
+          }
+          EOF
           npx cap copy android
 
       - name: Copy App Icon
